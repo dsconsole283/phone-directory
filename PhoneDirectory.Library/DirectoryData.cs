@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using PhoneDirectory.Library.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,22 @@ namespace PhoneDirectory.Library
         public string GetConnectionString()
         {
             return _configuration.GetConnectionString("DefaultConnection");
+        }
+        public async Task AddRecord(DirectoryRecordModel record)
+        {
+            await _db.SaveDataAsync("dbo.spAddRecord",
+                                    new { record.FirstName, 
+                                        record.LastName, 
+                                        record.Department.Name, 
+                                        record.Title, 
+                                        record.EmailAddress, 
+                                        record.PhoneMain, 
+                                        record.PhoneMobile, 
+                                        record.Extension, 
+                                        record.Notes, 
+                                        record.IsExec },
+                                    _connectionString,
+                                    true);
         }
     }
 }

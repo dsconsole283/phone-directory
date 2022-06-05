@@ -57,10 +57,13 @@
   <ItemGroup>
     <Folder Include="Properties" />
     <Folder Include="dbo" />
+    <Folder Include="dbo\Tables" />
+    <Folder Include="dbo\Stored Procedures" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Personnel.sql" />
-    <Build Include="dbo\Departments.sql" />
+    <Build Include="dbo\Tables\Departments.sql" />
+    <Build Include="dbo\Tables\Personnel.sql" />
+    <Build Include="dbo\Stored Procedures\spAddRecord.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PhoneDirectoryDB.publish.xml" />
