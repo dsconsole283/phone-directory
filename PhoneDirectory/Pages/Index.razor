@@ -1,8 +1,21 @@
 ﻿@page "/"
 
+@using PhoneDirectory.Library
+@using PhoneDirectory.Library.Models
+@inject DirectoryData data
+
 <PageTitle>Index</PageTitle>
 
 <h1>Placeholder for directory list</h1>
 <div>test
 </div>
+@code{
+    private List<DirectoryRecordModel> records = new();
 
+    protected override async Task OnInitializedAsync()
+    {
+        var results = await data.GetAllRecordsAsync();
+        records = results;
+    }
+    
+}

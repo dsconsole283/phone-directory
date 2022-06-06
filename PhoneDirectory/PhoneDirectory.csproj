@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-PhoneDirectory-8FE87A74-0CD2-4919-A031-9BDC263DAAB6</UserSecretsId>
   </PropertyGroup>

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PhoneDirectory.Library
 {
-    internal class DirectoryData
+    public class DirectoryData
     {
         private readonly ISQLDataAccess _db = new SQLDataAccess();
         private readonly IConfiguration _configuration;
@@ -21,7 +21,7 @@ namespace PhoneDirectory.Library
         }
         public string GetConnectionString()
         {
-            return _configuration.GetConnectionString("DefaultConnection");
+            return _configuration.GetConnectionString("DefaultDataConnection");
         }
         public async Task AddRecordAsync(DirectoryRecordModel record)
         {
@@ -43,9 +43,9 @@ namespace PhoneDirectory.Library
         {
             throw new NotImplementedException();
         }
-        public async Task<List<DirectoryRecordModel>> GetAllRecordAsync()
+        public async Task<List<DirectoryRecordModel>> GetAllRecordsAsync()
         {
-            return await _db.LoadDataAsync<DirectoryRecordModel, dynamic>("dbo.GetAllRecords", new { }, _connectionString, true);
+            return await _db.LoadDataAsync<DirectoryRecordModel, dynamic>("dbo.spGetAllRecords", new { }, _connectionString, true);
         }
     }
 }

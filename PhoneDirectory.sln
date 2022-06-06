@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhoneDirectory", "PhoneDirectory\PhoneDirectory.csproj", "{F7CEABAC-4C0D-4722-9BDB-2DF9C482A575}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneDirectory.Library", "PhoneDirectory.Library\PhoneDirectory.Library.csproj", "{260447CB-2D67-40EF-B05F-2D4992187878}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhoneDirectory.Library", "PhoneDirectory.Library\PhoneDirectory.Library.csproj", "{260447CB-2D67-40EF-B05F-2D4992187878}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "PhoneDirectoryDB", "PhoneDirectoryDB\PhoneDirectoryDB.sqlproj", "{18904250-904E-49D2-BF36-68396B88E270}"
 EndProject
