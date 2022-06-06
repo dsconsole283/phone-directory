@@ -2,10 +2,11 @@
 @using PhoneDirectory.Library
 @using PhoneDirectory.Library.Models
 @inject DirectoryData data
-@inject NavigationManager nav
 
 
 <PageTitle>Phone Directory Department Listings</PageTitle>
+
+<h1>@DepartmentName</h1>
 
 <div>
     <ul>
@@ -18,17 +19,60 @@
     </ul>
 </div>
 <div>
-    <ul>
+   <table style="overflow-y:auto;" align="left">
+    <thead>
 
-    </ul>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Last Name</th>
+            <th>First Name</th>
+            <th>Title</th>
+            <th>Main</th>
+            <th>Mobile</th>
+            <th>Email</th>
+            <th>Extension</th>
+        </tr>
+        @foreach (var p in personnel)
+        {
+            <tr>
+                <td>@p.LastName</td>
+                <td>@p.FirstName</td>
+                <td>@p.Title.Name</td>
+                <td>@p.PhoneMain</td>
+                <td>@p.PhoneMobile</td>
+                <td>@p.EmailAddress</td>
+                <td>@p.Extension</td>
+            </tr>
+        }
+    </tbody>
+</table>
 </div>
 
 
 @code {
     private List<DepartmentModel> departments = new();
+    private List<DirectoryRecordModel> personnel = new();
+    private string departmentName;
+
+    public string DepartmentName
+    {
+        get { return departmentName; }
+        set { departmentName = value; }
+    }
+
+    private int depId;
+
+    public int DepartmentId
+    {
+        get { return depId; }
+        set { depId = value; }
+    }
 
     protected override async Task OnInitializedAsync()
     {
         departments = await data.GetAllDepartmentsAsync();
+        personnel = await data.GetPersonnelByDepIdAsync(1); //TODO remove this hardcoded department id
+        DepartmentName = await data.GetDepartmentById(1);
     }
 }

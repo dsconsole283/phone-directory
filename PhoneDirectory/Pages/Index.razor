@@ -14,8 +14,8 @@
     </thead>
     <tbody>
         <tr>
-            <th>First Name</th>
             <th>Last Name</th>
+            <th>First Name</th>
             <th>Department</th>
             <th>Title</th>
             <th>Main</th>
@@ -26,8 +26,8 @@
         @foreach (var r in records)
         {
             <tr>
-                <td>@r.FirstName</td>
                 <td>@r.LastName</td>
+                <td>@r.FirstName</td>
                 <td>@r.Department.Name</td>
                 <td>@r.Title.Name</td>
                 <td>@r.PhoneMain</td>

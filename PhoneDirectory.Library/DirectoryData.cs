@@ -91,21 +91,21 @@ namespace PhoneDirectory.Library
                 _connectionString,
                 true);
         }
-        public async Task<List<DirectoryRecordModel>> GetAllRecordsAsync()
+        public async Task<List<TitleModel>> GetAllTitlesAsync()
         {
-            List<DirectoryRecordModel> completeRecords = new();
-
-            List<DepartmentModel> departments = await _db.LoadDataAsync<DepartmentModel, dynamic>(
-                "spGetAllDepartments",
-                new { },
-                _connectionString,
-                true); 
-            
-            List<TitleModel> titles = await _db.LoadDataAsync<TitleModel, dynamic>(
+            return await _db.LoadDataAsync<TitleModel, dynamic>(
                 "spGetAllTitles",
                 new { },
                 _connectionString,
                 true);
+        }
+        public async Task<List<DirectoryRecordModel>> GetAllRecordsAsync()
+        {
+            List<DirectoryRecordModel> completeRecords = new();
+
+            List<DepartmentModel> departments = await GetAllDepartmentsAsync();
+
+            List<TitleModel> titles = await GetAllTitlesAsync();
 
             List<DirectoryRecordModel> records = await _db.LoadDataAsync<DirectoryRecordModel, dynamic>(
                 "dbo.spGetAllRecords",
@@ -121,7 +121,8 @@ namespace PhoneDirectory.Library
 
             return records.OrderByDescending(x => x.IsExec == true)
                 .ThenBy(x => x.TitleId)
-                .ThenBy(x => x.Department.Name).ToList();
+                .ThenBy(x => x.Department.Name)
+                .ThenBy(x => x.LastName).ToList();
         }
         public async Task<List<DepartmentModel>> GetAllDepartmentsAsync()
         {
@@ -135,8 +136,27 @@ namespace PhoneDirectory.Library
         }
         public async Task<List<DirectoryRecordModel>> GetPersonnelByDepIdAsync(int id)
         {
-            return await _db.LoadDataAsync<DirectoryRecordModel, dynamic>(
-                "spGetPersonnelByDepId",
+            List<DirectoryRecordModel> records = await _db.LoadDataAsync<DirectoryRecordModel, dynamic>(
+                "spGetPersonnelByDepartmentId",
+                new { Id = id },
+                _connectionString,
+                true);
+
+            List<TitleModel> titles = await GetAllTitlesAsync();
+
+            foreach (var record in records)
+            {
+                record.Title = titles.Where(t => t.Id == record.TitleId).First();
+            }
+
+            return records.OrderByDescending(x => x.IsExec)
+                .ThenBy(x => x.TitleId)
+                .ThenBy(x => x.LastName).ToList();
+        }
+        public async Task<string> GetDepartmentById(int id)
+        {
+            return await _db.LoadDataSingleAsync<string, dynamic>(
+                "spGetDepartmentById",
                 new { Id = id },
                 _connectionString,
                 true);

@@ -5,7 +5,7 @@ AS
 
 BEGIN
 
-	SELECT Id, [Name] FROM dbo.Departments
+	SELECT [Name] FROM dbo.Departments
 	WHERE Id = @Id
 
 END
