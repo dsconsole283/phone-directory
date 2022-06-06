@@ -1,8 +1,34 @@
 ﻿@page "/departments"
+@using PhoneDirectory.Library
+@using PhoneDirectory.Library.Models
+@inject DirectoryData data
+@inject NavigationManager nav
 
-<PageTitle>Department Listings</PageTitle>
 
-<h1>Placeholder for department listings</h1>
+<PageTitle>Phone Directory Department Listings</PageTitle>
+
+<div>
+    <ul>
+    @foreach (var d in departments)
+    {
+        <li>
+            @d.Name
+        </li>
+    }
+    </ul>
+</div>
+<div>
+    <ul>
+
+    </ul>
+</div>
 
 
-@code {}
+@code {
+    private List<DepartmentModel> departments = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        departments = await data.GetAllDepartmentsAsync();
+    }
+}

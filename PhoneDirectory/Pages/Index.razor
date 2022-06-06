@@ -2,20 +2,47 @@
 
 @using PhoneDirectory.Library
 @using PhoneDirectory.Library.Models
+@using PhoneDirectory.Models
 @inject DirectoryData data
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Phone Directory Home</PageTitle>
 
-<h1>Placeholder for directory list</h1>
-<div>test
-</div>
+<h1>Personnel</h1>
+<table style="overflow-y:auto;" align="left">
+    <thead>
+
+    </thead>
+    <tbody>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Department</th>
+            <th>Title</th>
+            <th>Main</th>
+            <th>Mobile</th>
+            <th>Email</th>
+            <th>Extension</th>
+        </tr>
+        @foreach (var r in records)
+        {
+            <tr>
+                <td>@r.FirstName</td>
+                <td>@r.LastName</td>
+                <td>@r.Department.Name</td>
+                <td>@r.Title.Name</td>
+                <td>@r.PhoneMain</td>
+                <td>@r.PhoneMobile</td>
+                <td>@r.EmailAddress</td>
+                <td>@r.Extension</td>
+            </tr>
+        }
+    </tbody>
+</table>
 @code{
     private List<DirectoryRecordModel> records = new();
 
     protected override async Task OnInitializedAsync()
     {
-        var results = await data.GetAllRecordsAsync();
-        records = results;
+        records = await data.GetAllRecordsAsync();
     }
-    
 }

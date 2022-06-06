@@ -1,10 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using PhoneDirectory.Library.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PhoneDirectory.Library
 {
@@ -28,7 +23,7 @@ namespace PhoneDirectory.Library
             await _db.SaveDataAsync("dbo.spAddRecord",
                                     new { record.FirstName, 
                                         record.LastName, 
-                                        record.Department.Name, 
+                                        record.Department, 
                                         record.Title, 
                                         record.EmailAddress, 
                                         record.PhoneMain, 
@@ -39,13 +34,112 @@ namespace PhoneDirectory.Library
                                     _connectionString,
                                     true);
         }
-        public async Task<DirectoryRecordModel> EditRecordAsync(DirectoryRecordModel record)
+        public async Task EditRecordAsync(
+            DirectoryRecordModel record,
+            string firstName,
+            string lastName,
+            string department,
+            string title,
+            string emailAddress,
+            string phoneMain,
+            string phoneMobile,
+            string extension,
+            string notes,
+            bool isExec)
         {
-            throw new NotImplementedException();
+            record.FirstName = firstName;
+            record.LastName = lastName;
+            record.Department.Name = department;
+            record.DepartmentId = await GetDepIdByNameAsync(department);
+            record.Title.Name = title;
+            record.TitleId = await GetTitleIdByTitleAsync(title);
+            record.EmailAddress = emailAddress;
+            record.PhoneMain = phoneMain;
+            record.PhoneMobile = phoneMobile;
+            record.Extension = extension;
+            record.Notes = notes;
+            record.IsExec = DetermineExecStatus(record.TitleId); 
+
+            await _db.SaveDataAsync("spUpdateRecord",
+                new { record.FirstName, 
+                    record.LastName, 
+                    record.DepartmentId, 
+                    record.TitleId, 
+                    record.EmailAddress, 
+                    record.PhoneMain, 
+                    record.PhoneMobile, 
+                    record.Extension, 
+                    record.Notes, 
+                    record.IsExec },
+                _connectionString,
+                true);
+        }
+        public bool DetermineExecStatus(int titleId) => titleId < 7 ? true : false;
+        public async Task<int> GetDepIdByNameAsync(string name)
+        {
+            return await _db.LoadDataSingleAsync<int, dynamic>(
+                "spGetDepIdByName",
+                new { Name = name },
+                _connectionString,
+                true);
+        }
+        public async Task<int> GetTitleIdByTitleAsync(string title)
+        {
+            return await _db.LoadDataSingleAsync<int, dynamic>(
+                "spGetTitleIdByTitle",
+                new { Name = title },
+                _connectionString,
+                true);
         }
         public async Task<List<DirectoryRecordModel>> GetAllRecordsAsync()
         {
-            return await _db.LoadDataAsync<DirectoryRecordModel, dynamic>("dbo.spGetAllRecords", new { }, _connectionString, true);
+            List<DirectoryRecordModel> completeRecords = new();
+
+            List<DepartmentModel> departments = await _db.LoadDataAsync<DepartmentModel, dynamic>(
+                "spGetAllDepartments",
+                new { },
+                _connectionString,
+                true); 
+            
+            List<TitleModel> titles = await _db.LoadDataAsync<TitleModel, dynamic>(
+                "spGetAllTitles",
+                new { },
+                _connectionString,
+                true);
+
+            List<DirectoryRecordModel> records = await _db.LoadDataAsync<DirectoryRecordModel, dynamic>(
+                "dbo.spGetAllRecords",
+                new { },
+                _connectionString,
+                true);
+
+            foreach (var record in records)
+            {
+                record.Department = departments.Where(d => d.Id == record.DepartmentId).First();
+                record.Title = titles.Where(t => t.Id == record.TitleId).First();
+            }
+
+            return records.OrderByDescending(x => x.IsExec == true)
+                .ThenBy(x => x.TitleId)
+                .ThenBy(x => x.Department.Name).ToList();
+        }
+        public async Task<List<DepartmentModel>> GetAllDepartmentsAsync()
+        {
+            var output = await _db.LoadDataAsync<DepartmentModel, dynamic>(
+                "dbo.spGetAllDepartments",
+                new { },
+                _connectionString,
+                true);
+
+            return output.OrderBy(d => d.Name).ToList();
+        }
+        public async Task<List<DirectoryRecordModel>> GetPersonnelByDepIdAsync(int id)
+        {
+            return await _db.LoadDataAsync<DirectoryRecordModel, dynamic>(
+                "spGetPersonnelByDepId",
+                new { Id = id },
+                _connectionString,
+                true);
         }
     }
 }

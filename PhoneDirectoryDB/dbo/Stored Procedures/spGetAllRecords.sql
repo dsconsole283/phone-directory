@@ -3,5 +3,8 @@
 AS
 
 BEGIN
-	SELECT * FROM dbo.Personnel
+
+	SELECT *
+	FROM dbo.Personnel
+
 END

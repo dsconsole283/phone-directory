@@ -30,6 +30,24 @@ namespace PhoneDirectory.Library
                 return result;
             }
         }
+        public async Task<T> LoadDataSingleAsync<T, U>(string sqlStatement,
+                                      U parameters,
+                                      string connectionString,
+                                      bool isStoredProcedure = false)
+        {
+
+            CommandType commandType = CommandType.Text;
+
+            if (isStoredProcedure)
+            {
+                commandType = CommandType.StoredProcedure;
+            }
+
+            using (IDbConnection connection = new SqlConnection(connectionString))
+            {
+                return await connection.QueryFirstOrDefaultAsync<T>(sqlStatement, parameters, commandType: commandType);
+            }
+        }
 
         public async Task SaveDataAsync<T>(string sqlStatement,
                                 T parameters,
