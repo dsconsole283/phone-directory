@@ -23,7 +23,7 @@ namespace PhoneDirectory.Library
         {
             return _configuration.GetConnectionString("DefaultConnection");
         }
-        public async Task AddRecord(DirectoryRecordModel record)
+        public async Task AddRecordAsync(DirectoryRecordModel record)
         {
             await _db.SaveDataAsync("dbo.spAddRecord",
                                     new { record.FirstName, 
@@ -38,6 +38,14 @@ namespace PhoneDirectory.Library
                                         record.IsExec },
                                     _connectionString,
                                     true);
+        }
+        public async Task<DirectoryRecordModel> EditRecordAsync(DirectoryRecordModel record)
+        {
+            throw new NotImplementedException();
+        }
+        public async Task<List<DirectoryRecordModel>> GetAllRecordAsync()
+        {
+            return await _db.LoadDataAsync<DirectoryRecordModel, dynamic>("dbo.GetAllRecords", new { }, _connectionString, true);
         }
     }
 }
