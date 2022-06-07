@@ -2,51 +2,85 @@
 @using PhoneDirectory.Library
 @using PhoneDirectory.Library.Models
 @inject DirectoryData data
+@inject NavigationManager navManager
 
 
 <PageTitle>Phone Directory Department Listings</PageTitle>
-
-<h1>@DepartmentName</h1>
-
-<div>
-    <ul>
-    @foreach (var d in departments)
-    {
-        <li>
-            @d.Name
-        </li>
+<style>
+    .personnel-table{
+        line-height: 20px;
     }
+
+    .div-table{
+        display :inline-block;
+        width:auto;
+        border: 1px;
+        border-color: black;
+        border-style:solid;
+        vertical-align:top;
+    }
+
+    .h1-dep{
+        display: block;
+        text-align:left;
+        
+    }
+
+    tr a{
+       display: block;
+    }
+
+    tr:hover{
+        background: grey;
+        cursor: pointer;
+    }
+
+    .table{
+        border-spacing: 14px;
+    }
+</style>
+
+<div class="div-table">
+    <ul>
+        @foreach (var d in departments)
+        {
+            <li >
+                <a @onclick="(() => GetDepartmentListing())">@d.Name</a>
+            </li>
+        }
     </ul>
 </div>
-<div>
-   <table style="overflow-y:auto;" align="left">
-    <thead>
+<div class="div-table">
+<h1 class="h1-dep">@DepartmentName</h1>
 
-    </thead>
-    <tbody>
-        <tr>
-            <th>Last Name</th>
-            <th>First Name</th>
-            <th>Title</th>
-            <th>Main</th>
-            <th>Mobile</th>
-            <th>Email</th>
-            <th>Extension</th>
-        </tr>
-        @foreach (var p in personnel)
-        {
-            <tr>
-                <td>@p.LastName</td>
-                <td>@p.FirstName</td>
-                <td>@p.Title.Name</td>
-                <td>@p.PhoneMain</td>
-                <td>@p.PhoneMobile</td>
-                <td>@p.EmailAddress</td>
-                <td>@p.Extension</td>
-            </tr>
-        }
-    </tbody>
-</table>
+   <table align="left" cellpadding="5px;">
+       <thead>
+
+       </thead>
+   <tbody>
+       <tr>
+           <th>Last Name</th>
+           <th>First Name</th>
+           <th>Title</th>
+           <th>Main</th>
+           <th>Mobile</th>
+           <th>Email</th>
+           <th>Extension</th>
+       </tr>
+           @foreach (var p in personnel)
+           {
+               <tr>
+                   <td>@p.LastName </td>
+                   <td>@p.FirstName</td>
+                   <td>@p.Title.Name</td>
+                   <td>@p.PhoneMain</td>
+                   <td>@p.PhoneMobile</td>
+                   <td>@p.EmailAddress</td>
+                   <td>@p.Extension</td>
+               </tr>
+           }
+   </tbody>
+   </table>
 </div>
 
 
@@ -72,7 +106,10 @@
     protected override async Task OnInitializedAsync()
     {
         departments = await data.GetAllDepartmentsAsync();
+    }
+    public async Task GetDepartmentListing()
+    {
         personnel = await data.GetPersonnelByDepIdAsync(1); //TODO remove this hardcoded department id
-        DepartmentName = await data.GetDepartmentById(1);
+        DepartmentName = await data.GetDepartmentById(1);  
     }
 }

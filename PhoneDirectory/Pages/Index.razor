@@ -6,9 +6,13 @@
 @inject DirectoryData data
 
 <PageTitle>Phone Directory Home</PageTitle>
-
+<style>
+    .search-bar{
+        font-size: 20px;
+    }
+</style>
 <h1>Personnel</h1>
-<table style="overflow-y:auto;" align="left">
+<table class="personnel-table" style="overflow-y:auto;" align="left">
     <thead>
 
     </thead>
@@ -38,6 +42,7 @@
         }
     </tbody>
 </table>
+<input class="search-bar" type="text" placeholder="Search" />
 @code{
     private List<DirectoryRecordModel> records = new();
 

@@ -74,7 +74,7 @@ namespace PhoneDirectory.Library
                 _connectionString,
                 true);
         }
-        public bool DetermineExecStatus(int titleId) => titleId < 7 ? true : false;
+        public static bool DetermineExecStatus(int titleId) => titleId < 7;
         public async Task<int> GetDepIdByNameAsync(string name)
         {
             return await _db.LoadDataSingleAsync<int, dynamic>(
