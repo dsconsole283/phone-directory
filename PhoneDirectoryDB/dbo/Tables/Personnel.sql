@@ -3,7 +3,7 @@
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [FirstName] NVARCHAR(50) NOT NULL, 
     [LastName] NVARCHAR(50) NOT NULL, 
-    [DepartmentId] INT NULL, 
+    [DepartmentId] INT NOT NULL, 
     [TitleId] INT NOT NULL, 
     [EmailAddress] NVARCHAR(50) NOT NULL, 
     [PhoneMain] NCHAR(11) NULL, 
