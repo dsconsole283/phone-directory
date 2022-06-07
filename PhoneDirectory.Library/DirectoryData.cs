@@ -15,7 +15,7 @@
         {
             return _configuration.GetConnectionString("DefaultDataConnection");
         }
-        public async Task AddRecordAsync(DirectoryRecordModel record)
+        public async Task AddRecordAsync(PersonnelModel record)
         {
             await _db.SaveDataAsync("dbo.spAddRecord",
                                     new { record.FirstName, 
@@ -32,7 +32,7 @@
                                     true);
         }
         public async Task EditRecordAsync(
-            DirectoryRecordModel record,
+            PersonnelModel record,
             string firstName,
             string lastName,
             string department,
@@ -96,15 +96,15 @@
                 _connectionString,
                 true);
         }
-        public async Task<List<DirectoryRecordModel>> GetAllRecordsAsync()
+        public async Task<List<PersonnelModel>> GetAllRecordsAsync()
         {
-            List<DirectoryRecordModel> completeRecords = new();
+            List<PersonnelModel> completeRecords = new();
 
             List<DepartmentModel> departments = await GetAllDepartmentsAsync();
 
             List<TitleModel> titles = await GetAllTitlesAsync();
 
-            List<DirectoryRecordModel> records = await _db.LoadDataAsync<DirectoryRecordModel, dynamic>(
+            List<PersonnelModel> records = await _db.LoadDataAsync<PersonnelModel, dynamic>(
                 "dbo.spGetAllRecords",
                 new { },
                 _connectionString,
@@ -131,9 +131,9 @@
 
             return output.OrderBy(d => d.Name).ToList();
         }
-        public async Task<List<DirectoryRecordModel>> GetPersonnelByDepIdAsync(int id)
+        public async Task<List<PersonnelModel>> GetPersonnelByDepIdAsync(int id)
         {
-            List<DirectoryRecordModel> records = await _db.LoadDataAsync<DirectoryRecordModel, dynamic>(
+            List<PersonnelModel> records = await _db.LoadDataAsync<PersonnelModel, dynamic>(
                 "spGetPersonnelByDepartmentId",
                 new { Id = id },
                 _connectionString,
