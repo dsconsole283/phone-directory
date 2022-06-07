@@ -1,8 +1,4 @@
-﻿using Dapper;
-using Microsoft.Data.SqlClient;
-using System.Data;
-
-namespace PhoneDirectory.Library
+﻿namespace PhoneDirectory.Library
 {
     internal class SQLDataAccess : ISQLDataAccess
     {

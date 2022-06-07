@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using PhoneDirectory.Library.Models;
-
-namespace PhoneDirectory.Library
+﻿namespace PhoneDirectory.Library
 {
     public class DirectoryData
     {
