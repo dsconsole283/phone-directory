@@ -1,6 +1,98 @@
 ﻿@page "/"
+@inject DirectoryData data
+@inject NavigationManager navManager
 
 
 <PageTitle>Phone Directory Home</PageTitle>
 
-@code{}
+<style>
+
+
+
+</style>
+
+
+    @if (departments is not null)
+    {
+        @foreach (var d in departments)
+        {
+            <div>
+                <button class="btn btn-light" @onclick="(() => OnClick(d))">@d.Name</button>
+            </div>
+        }
+    }
+@if (personnel is not null)
+{
+    @foreach (var p in personnel)
+    {
+        <div  id="div-personnel">
+            @p.LastName
+            @p.FirstName
+            @p.Department.Name
+            @p.Title.Name
+            @p.PhoneMain
+            @p.PhoneMobile
+            @p.EmailAddress
+            @p.Extension
+        </div>
+    }
+}
+
+
+<input type="text" placeholder="Search" 
+    aria-label="Search Box" 
+    @oninput="((txt) => OnSearchInput((string)txt.Value))"/>
+
+
+
+
+
+@code{
+    private List<DepartmentModel> departments;
+    private List<PersonnelModel> personnel;
+    private string searchText = "";
+
+    protected async override Task OnInitializedAsync()
+    {
+        departments = await data.GetAllDepartmentsAsync();
+        personnel = await data.GetAllRecordsAsync();
+    }
+
+    private void OnClick(DepartmentModel dep)
+    {
+        navManager.NavigateTo($"/{dep}");
+    }
+
+    private async Task Filter()
+    {
+        if (string.IsNullOrWhiteSpace(searchText) == false)
+        {
+            var output = await data.GetAllRecordsAsync();
+
+            output = output.Where(
+                x => x.FirstName.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) ||
+                x.LastName.Contains(searchText, StringComparison.InvariantCultureIgnoreCase)       ||
+                x.Extension.Contains(searchText, StringComparison.InvariantCultureIgnoreCase)      ||
+                x.PhoneMain.Contains(searchText, StringComparison.InvariantCultureIgnoreCase)      ||
+                x.PhoneMobile.Contains(searchText, StringComparison.InvariantCultureIgnoreCase)
+            ).ToList();
+
+            personnel = output;
+        }
+        else
+        {
+            personnel = await data.GetAllRecordsAsync();
+        }
+    }
+    private async Task OnSearchInput(string searchInput)
+    {
+        searchText = searchInput;
+        await Filter();
+    }
+
+    //private async Task OnEmptySearch()
+    //{
+    //    personnel = await data.GetAllRecordsAsync();
+    //    @onemptied="((txt) => OnEmptySearch())"
+    //}
+}
