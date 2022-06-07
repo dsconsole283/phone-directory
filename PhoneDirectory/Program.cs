@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using PhoneDirectory.Areas.Identity;
-using PhoneDirectory.Data;
-using PhoneDirectory.Library;
 
 var builder = WebApplication.CreateBuilder(args);
 

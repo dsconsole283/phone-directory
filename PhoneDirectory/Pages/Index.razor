@@ -1,53 +1,6 @@
 ﻿@page "/"
 
-@using PhoneDirectory.Library
-@using PhoneDirectory.Library.Models
-@using PhoneDirectory.Models
-@inject DirectoryData data
 
 <PageTitle>Phone Directory Home</PageTitle>
-<style>
-    .search-bar{
-        font-size: 20px;
-    }
-</style>
-<h1>Personnel</h1>
-<table class="personnel-table" style="overflow-y:auto;" align="left">
-    <thead>
 
-    </thead>
-    <tbody>
-        <tr>
-            <th>Last Name</th>
-            <th>First Name</th>
-            <th>Department</th>
-            <th>Title</th>
-            <th>Main</th>
-            <th>Mobile</th>
-            <th>Email</th>
-            <th>Extension</th>
-        </tr>
-        @foreach (var r in records)
-        {
-            <tr>
-                <td>@r.LastName</td>
-                <td>@r.FirstName</td>
-                <td>@r.Department.Name</td>
-                <td>@r.Title.Name</td>
-                <td>@r.PhoneMain</td>
-                <td>@r.PhoneMobile</td>
-                <td>@r.EmailAddress</td>
-                <td>@r.Extension</td>
-            </tr>
-        }
-    </tbody>
-</table>
-<input class="search-bar" type="text" placeholder="Search" />
-@code{
-    private List<DirectoryRecordModel> records = new();
-
-    protected override async Task OnInitializedAsync()
-    {
-        records = await data.GetAllRecordsAsync();
-    }
-}
+@code{}
