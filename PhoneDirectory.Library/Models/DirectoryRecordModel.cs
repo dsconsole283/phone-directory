@@ -1,6 +1,4 @@
-﻿using static PhoneDirectory.Library.Enums.Enums;
-
-namespace PhoneDirectory.Library.Models
+﻿namespace PhoneDirectory.Library.Models
 {
     public class DirectoryRecordModel
     {
