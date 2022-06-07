@@ -5,27 +5,20 @@
 
 <PageTitle>Phone Directory Home</PageTitle>
 
-<style>
-
-
-
-</style>
-
-
-    @if (departments is not null)
+@if (departments is not null)
+{
+    @foreach (var d in departments)
     {
-        @foreach (var d in departments)
-        {
-            <div>
-                <button class="btn btn-light" @onclick="(() => OnClick(d))">@d.Name</button>
-            </div>
-        }
+        <div>
+            <button class="btn btn-light" @onclick="(() => OnClick(d))">@d.Name</button>
+        </div>
     }
+}
 @if (personnel is not null)
 {
     @foreach (var p in personnel)
     {
-        <div  id="div-personnel">
+        <div>
             @p.LastName
             @p.FirstName
             @p.Department.Name
@@ -36,6 +29,35 @@
             @p.Extension
         </div>
     }
+}
+
+@if (personnel is not null)
+{
+<table>
+    <thead>
+        <tr>Last Name</tr>
+        <tr>First Name</tr>
+        <tr>Department</tr>
+        <tr>Title</tr>
+        <tr>Phone</tr>
+        <tr>Mobile</tr>
+        <tr>Email</tr>
+        <tr>Ext</tr>
+    </thead>
+    @foreach (var p in personnel)
+    {
+        <tr>
+            @p.LastName,
+            @p.FirstName,
+            @p.Department.Name,
+            @p.Title.Name,
+            @p.PhoneMain,
+            @p.PhoneMobile,
+            @p.EmailAddress,
+            @p.Extension
+        </tr>
+    }
+</table>
 }
 
 
@@ -60,7 +82,7 @@
 
     private void OnClick(DepartmentModel dep)
     {
-        navManager.NavigateTo($"/{dep}");
+        navManager.NavigateTo($"/{dep.Name}");
     }
 
     private async Task Filter()

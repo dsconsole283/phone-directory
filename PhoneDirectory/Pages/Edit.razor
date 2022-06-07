@@ -1,5 +1,21 @@
-﻿<h3>Edit</h3>
+﻿@page "/Edit/{id}"
+@inject DirectoryData data
+@inject NavigationManager navManager
+
+<h3>Edit</h3>
 
 @code {
+    [Parameter]
+    public string Id { get; set; }
+    private PersonnelModel person;
 
+    protected override async Task OnInitializedAsync()
+    {
+        //person = await data.GetPersonByIdAsync(Id);
+    }
+
+    private void ClosePage()
+    {
+        navManager.NavigateTo("/admin");
+    }
 }
