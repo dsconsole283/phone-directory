@@ -5,6 +5,10 @@
 
 <PageTitle>Phone Directory Home</PageTitle>
 
+<div>
+    <button class="btn btn-light" @onclick="(() => OnAdminClick())">Admin</button>
+</div>
+
 @if (departments is not null)
 {
     @foreach (var d in departments)
@@ -118,5 +122,10 @@
     {
         searchText = searchInput;
         await Filter();
+    }
+
+    private void OnAdminClick()
+    {
+        navManager.NavigateTo("/admin");
     }
 }
