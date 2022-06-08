@@ -1,0 +1,711 @@
+﻿@page "/SampleData"
+@inject DirectoryData data
+
+<h3>SampleData</h3>
+
+@if (departmentsAdded)
+{
+    <h3>Departments added</h3>
+}
+else
+{
+    <button class="btn btn-primary" @onclick="CreateDepartments">Add Department Data</button>
+}
+
+@if (titlesAdded)
+{
+    <h3>Titles added</h3>
+}
+else
+{
+    <button class="btn btn-primary" @onclick="CreateTitles">Add Title Data</button>
+}
+
+@if (personnelAdded)
+{
+    <h3>Personnel added</h3>
+}
+else
+{
+    <button class="btn btn-primary" @onclick="LoadSamplePersonnel">Add Sample Personnel</button>
+}
+
+
+@code {
+    private bool departmentsAdded = false;
+    private bool titlesAdded = false;
+    private bool personnelAdded = false;
+
+    private async Task CreateDepartments()
+    {
+        DepartmentModel dep = new()
+        {
+            Name = "General"
+        };
+        await data.AddDepartment(dep);
+
+        dep = new()
+        {
+            Name = "Accounting"
+        };
+        await data.AddDepartment(dep);
+
+        dep = new()
+        {
+            Name = "Audit"
+        };
+        await data.AddDepartment(dep);
+
+        dep = new()
+        {
+            Name = "Cage"
+        };
+        await data.AddDepartment(dep);
+
+        dep = new()
+        {
+            Name = "CDT"
+        };
+        await data.AddDepartment(dep);
+
+        dep = new()
+        {
+            Name = "EVS"
+        };
+        await data.AddDepartment(dep);
+
+        dep = new()
+        {
+            Name = "Facilities"
+        };
+        await data.AddDepartment(dep);
+
+        dep = new()
+        {
+            Name = "Food and Beverage"
+        };
+        await data.AddDepartment(dep);
+
+        dep = new()
+        {
+            Name = "Hotel"
+        };
+        await data.AddDepartment(dep);
+
+        dep = new()
+        {
+            Name = "Housekeeping"
+        };
+        await data.AddDepartment(dep);
+
+        dep = new()
+        {
+            Name = "Human Resources"
+        };
+        await data.AddDepartment(dep);
+
+        dep = new()
+        {
+            Name = "IT"
+        };
+        await data.AddDepartment(dep);
+
+        dep = new()
+        {
+            Name = "Marketing"
+        };
+        await data.AddDepartment(dep);
+
+        dep = new()
+        {
+            Name = "Occupational Health"
+        };
+        await data.AddDepartment(dep);
+
+        dep = new()
+        {
+            Name = "Payroll"
+        };
+        await data.AddDepartment(dep);
+
+        dep = new()
+        {
+            Name = "DPS"
+        };
+        await data.AddDepartment(dep);
+
+        dep = new()
+        {
+            Name = "Purchasing"
+        };
+        await data.AddDepartment(dep);
+
+        dep = new()
+        {
+            Name = "Slots"
+        };
+        await data.AddDepartment(dep);
+
+        dep = new()
+        {
+            Name = "Table Games"
+        };
+        await data.AddDepartment(dep);
+
+        dep = new()
+        {
+            Name = "Talent Development"
+        };
+        await data.AddDepartment(dep);
+
+        departmentsAdded = true;
+    }
+
+    private async Task CreateTitles()
+    {
+        TitleModel title = new()
+        {
+            Name = "VP"
+        };
+        await data.AddTitle(title);
+
+        title = new()
+        {
+            Name = "Director"
+        };
+        await data.AddTitle(title);
+
+        title = new()
+        {
+            Name = "Assistant Director"
+        };
+        await data.AddTitle(title);
+
+        title = new()
+        {
+            Name = "Manager"
+        };
+        await data.AddTitle(title);
+
+        title = new()
+        {
+            Name = "Assistant Manager"
+        };
+        await data.AddTitle(title);
+
+        title = new()
+        {
+            Name = "Supervisor"
+        };
+        await data.AddTitle(title);
+
+        title = new()
+        {
+            Name = "N/A"
+        };
+        await data.AddTitle(title);
+
+        titlesAdded = true;
+    }
+    private async Task LoadSamplePersonnel()
+    {
+        var dep = "Slots";
+        var title = "VP";
+
+        PersonnelModel person = new()
+        {
+            FirstName = "Donald",
+            LastName = "Duck",
+            EmailAddress = "dd@acme.toon",
+            PhoneMain = "19515550122",
+            PhoneMobile = "19515550123",
+            Extension = "0122",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Table Games";
+        title = "VP";
+
+        person = new()
+        {
+            FirstName = "Steve",
+            LastName = "Buttabbi",
+            EmailAddress = "sb@test.com",
+            PhoneMain = "19515550124",
+            PhoneMobile = "19515550125",
+            Extension = "0124",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Accounting";
+        title = "VP";
+
+        person = new()
+        {
+            FirstName = "Doug",
+            LastName = "Buttabbi",
+            EmailAddress = "db@test.com",
+            PhoneMain = "19515550126",
+            PhoneMobile = "19515550127",
+            Extension = "0126",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+
+        dep = "Audit";
+        title = "VP";
+
+        person = new()
+        {
+            FirstName = "Paul",
+            LastName = "Muaddib",
+            EmailAddress = "usul@dune.sleeper",
+            PhoneMain = "19515550128",
+            PhoneMobile = "19515550129",
+            Extension = "0128",
+            Notes = "The sleeper has awoken"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Cage";
+        title = "VP";
+
+        person = new()
+        {
+            FirstName = "Channie",
+            LastName = "Fremen",
+            EmailAddress = "seech@ourhome.dune",
+            PhoneMain = "19515550130",
+            PhoneMobile = "19515550131",
+            Extension = "0130",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "CDT";
+        title = "VP";
+
+        person = new()
+        {
+            FirstName = "Chris",
+            LastName = "Cringle",
+            EmailAddress = "realasjc@test.com",
+            PhoneMain = "19515550132",
+            PhoneMobile = "19515550133",
+            Extension = "0132",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "EVS";
+        title = "VP";
+
+        person = new()
+        {
+            FirstName = "Johnny",
+            LastName = "Depp",
+            EmailAddress = "iheartamber@forever.com",
+            PhoneMain = "19515550134",
+            PhoneMobile = "19515550135",
+            Extension = "0134",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Facilities";
+        title = "VP";
+
+        person = new()
+        {
+            FirstName = "IP",
+            LastName = "Freely",
+            EmailAddress = "safeforwork@test.com",
+            PhoneMain = "19515550136",
+            PhoneMobile = "19515550137",
+            Extension = "0136",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Food and Beverage";
+        title = "VP";
+
+        person = new()
+        {
+            FirstName = "Isaac",
+            LastName = "Newton",
+            EmailAddress = "supergenius@nobigdeal.com",
+            PhoneMain = "19515550138",
+            PhoneMobile = "19515550139",
+            Extension = "0138",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Hotel";
+        title = "VP";
+
+        person = new()
+        {
+            FirstName = "Donald",
+            LastName = "Trump",
+            EmailAddress = "pinkfloyd@potus.com",
+            PhoneMain = "19515550140",
+            PhoneMobile = "19515550141",
+            Extension = "0140",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Housekeeping";
+        title = "VP";
+
+        person = new()
+        {
+            FirstName = "LeBron",
+            LastName = "James",
+            EmailAddress = "jordaniswaybetter@retire.com",
+            PhoneMain = "19515550142",
+            PhoneMobile = "19515550143",
+            Extension = "0142",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Human Resources";
+        title = "VP";
+
+        person = new()
+        {
+            FirstName = "Corey",
+            LastName = "Taylor",
+            EmailAddress = "cutekitties@fluffy.com",
+            PhoneMain = "19515550144",
+            PhoneMobile = "19515550145",
+            Extension = "0144",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "IT";
+        title = "VP";
+
+        person = new()
+        {
+            FirstName = "Ricky",
+            LastName = "Bobby",
+            EmailAddress = "iliketogofast@ifyourenotfirstyourelast.com",
+            PhoneMain = "19515550146",
+            PhoneMobile = "19515550147",
+            Extension = "0146",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Marketing";
+        title = "VP";
+
+        person = new()
+        {
+            FirstName = "Cal",
+            LastName = "Naughton JR",
+            EmailAddress = "slingshot@engage.com",
+            PhoneMain = "19515550148",
+            PhoneMobile = "19515550149",
+            Extension = "0148",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Occupational Health";
+        title = "VP";
+
+        person = new()
+        {
+            FirstName = "Evil",
+            LastName = "Kenivel",
+            EmailAddress = "slightbump@imfine.com",
+            PhoneMain = "19515550150",
+            PhoneMobile = "19515550151",
+            Extension = "0150",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Payroll";
+        title = "VP";
+
+        person = new()
+        {
+            FirstName = "Jeff",
+            LastName = "Bezos",
+            EmailAddress = "ineedabiggeryacht@wasteful.com",
+            PhoneMain = "19515550152",
+            PhoneMobile = "19515550153",
+            Extension = "0152",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "DPS";
+        title = "VP";
+
+        person = new()
+        {
+            FirstName = "Lieutenant",
+            LastName = "Dan",
+            EmailAddress = "lookmanolegs@vet.com",
+            PhoneMain = "19515550154",
+            PhoneMobile = "19515550155",
+            Extension = "0154",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Purchasing";
+        title = "VP";
+
+        person = new()
+        {
+            FirstName = "Pete",
+            LastName = "Rose",
+            EmailAddress = "betonme@hof.com",
+            PhoneMain = "19515550156",
+            PhoneMobile = "19515550157",
+            Extension = "0156",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Talent Development";
+        title = "VP";
+
+        person = new()
+        {
+            FirstName = "Simon",
+            LastName = "Cowel",
+            EmailAddress = "next@yousuck.com",
+            PhoneMain = "19515550158",
+            PhoneMobile = "19515550159",
+            Extension = "0158",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Slots";
+        title = "Director";
+
+        person = new()
+        {
+            FirstName = "Phil",
+            LastName = "Up",
+            EmailAddress = "imnotqualified@itdoesntmatter.com",
+            PhoneMain = "19515550160",
+            PhoneMobile = "19515550161",
+            Extension = "0160",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Table Games";
+        title = "Director";
+
+        person = new()
+        {
+            FirstName = "Conway",
+            LastName = "Twitty",
+            EmailAddress = "leavemeoutofit@fg.com",
+            PhoneMain = "19515550162",
+            PhoneMobile = "19515550163",
+            Extension = "0162",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Accounting";
+        title = "Director";
+
+        person = new()
+        {
+            FirstName = "Jeff",
+            LastName = "Jeff",
+            EmailAddress = "mynamejep@lol.com",
+            PhoneMain = "19515550164",
+            PhoneMobile = "19515550165",
+            Extension = "0164",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Audit";
+        title = "Director";
+
+        person = new()
+        {
+            FirstName = "Beavis",
+            LastName = "Smith",
+            EmailAddress = "fire@ohyeah.com",
+            PhoneMain = "19515550166",
+            PhoneMobile = "19515550167",
+            Extension = "0166",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Cage";
+        title = "Director";
+
+        person = new()
+        {
+            FirstName = "Butt",
+            LastName = "Head",
+            EmailAddress = "uhhhhh@thatwascool.com",
+            PhoneMain = "19515550168",
+            PhoneMobile = "19515550169",
+            Extension = "0168",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Slots";
+        title = "Assistant Director";
+
+        person = new()
+        {
+            FirstName = "Syril",
+            LastName = "Figgis",
+            EmailAddress = "lana@archer.com",
+            PhoneMain = "19515550170",
+            PhoneMobile = "19515550171",
+            Extension = "0170",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Slots";
+        title = "Manager";
+
+        person = new()
+        {
+            FirstName = "Ronald",
+            LastName = "McDonald",
+            EmailAddress = "premiumprices@lowquality.com",
+            PhoneMain = "19515550172",
+            PhoneMobile = "19515550173",
+            Extension = "0172",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Slots";
+        title = "Assistant Manager";
+
+        person = new()
+        {
+            FirstName = "Richard",
+            LastName = "Marx",
+            EmailAddress = "rightherewaiting@foryou.com",
+            PhoneMain = "19515550174",
+            PhoneMobile = "19515550175",
+            Extension = "0174",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Slots";
+        title = "Supervisor";
+
+        person = new()
+        {
+            FirstName = "Jesse",
+            LastName = "Pinkman",
+            EmailAddress = "meh@scienceb.com",
+            PhoneMain = "19515550176",
+            PhoneMobile = "19515550177",
+            Extension = "0176",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Slots";
+        title = "Supervisor";
+
+        person = new()
+        {
+            FirstName = "Joey",
+            LastName = "Tribbiani",
+            EmailAddress = "howyoudoin@friends.com",
+            PhoneMain = "19515550178",
+            PhoneMobile = "19515550179",
+            Extension = "0178",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Slots";
+        title = "N/A";
+
+        person = new()
+        {
+            FirstName = "Basic",
+            LastName = "Guy1",
+            EmailAddress = "notspecial@p1.com",
+            PhoneMain = null,
+            PhoneMobile = null,
+            Extension = null,
+            Notes = null
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        dep = "Slots";
+        title = "Manager";
+
+        person = new()
+        {
+            FirstName = "Fred",
+            LastName = "Flinstone",
+            EmailAddress = "yabbadabba@irock.com",
+            PhoneMain = "19515550180",
+            PhoneMobile = "19515550181",
+            Extension = "0180",
+            Notes = "Note placeholder"
+        };
+
+        await data.AddRecordAsync(person, dep, title);
+
+        personnelAdded = true;
+    }
+}

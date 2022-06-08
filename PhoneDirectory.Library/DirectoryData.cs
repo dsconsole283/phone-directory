@@ -13,21 +13,25 @@
         }
         public string GetConnectionString()
         {
-            return _configuration.GetConnectionString("DefaultDataConnection");
+            return _configuration.GetConnectionString("DefaultRemoteDataConnection");
         }
-        public async Task AddRecordAsync(PersonnelModel record)
+        public async Task AddRecordAsync(PersonnelModel record, string department, string title)
         {
+            var departmentId = await GetDepIdByNameAsync(department);
+            var titleId = await GetTitleIdByTitleAsync(title);
+            var isExecStatus = DetermineExecStatus(titleId);
+
             await _db.SaveDataAsync("dbo.spAddRecord",
                                     new { record.FirstName, 
-                                        record.LastName, 
-                                        record.Department, 
-                                        record.Title, 
+                                        record.LastName,
+                                        departmentId,
+                                        titleId,
                                         record.EmailAddress, 
                                         record.PhoneMain, 
                                         record.PhoneMobile, 
                                         record.Extension, 
                                         record.Notes, 
-                                        record.IsExec },
+                                        @IsExec = isExecStatus },
                                     _connectionString,
                                     true);
         }
@@ -84,7 +88,7 @@
         {
             return await _db.LoadDataSingleAsync<int, dynamic>(
                 "spGetTitleIdByTitle",
-                new { Name = title },
+                new { @Title = title },
                 _connectionString,
                 true);
         }
@@ -112,6 +116,16 @@
 
             foreach (var record in records)
             {
+                if (record.PhoneMain is null)
+                {
+                    record.PhoneMain = "None on File";
+                    record.Extension = "N/A";
+                }
+                if (record.PhoneMobile is null)
+                {
+                    record.PhoneMobile = "None on File";
+                }
+
                 record.Department = departments.Where(d => d.Id == record.DepartmentId).First();
                 record.Title = titles.Where(t => t.Id == record.TitleId).First();
             }
@@ -157,6 +171,14 @@
                 new { Id = id },
                 _connectionString,
                 true);
+        }
+        public async Task AddDepartment(DepartmentModel department)
+        {
+            await _db.SaveDataAsync("spCreateDepartment", new { @Department = department.Name }, _connectionString, true);
+        }
+        public async Task AddTitle(TitleModel title)
+        {
+            await _db.SaveDataAsync("spCreateTitle", new { @Title = title.Name }, _connectionString, true);
         }
     }
 }

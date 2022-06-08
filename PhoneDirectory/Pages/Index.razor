@@ -9,6 +9,10 @@
     <button class="btn btn-light" @onclick="(() => OnAdminClick())">Admin</button>
 </div>
 
+<div>
+    <button class="btn btn-light" @onclick="(() => OnAllClick())">See All</button>
+</div>
+
 @if (departments is not null)
 {
     @foreach (var d in departments)
@@ -121,6 +125,11 @@
     private async Task OnSearchInput(string searchInput)
     {
         searchText = searchInput;
+        await Filter();
+    }
+    private async Task OnAllClick()
+    {
+        selectedDepartment = "All";
         await Filter();
     }
 

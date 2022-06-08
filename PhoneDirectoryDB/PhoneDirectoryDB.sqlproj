@@ -73,9 +73,13 @@
     <Build Include="dbo\Stored Procedures\spGetTitleIdByTitle.sql" />
     <Build Include="dbo\Stored Procedures\spGetAllTitles.sql" />
     <Build Include="dbo\Stored Procedures\spGetPersonnelByDepartmentId.sql" />
+    <Build Include="dbo\Stored Procedures\spCreateDepartment.sql" />
+    <Build Include="dbo\Stored Procedures\spCreateTitle.sql" />
+    <Build Include="dbo\Stored Procedures\spAddRecord.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="PhoneDirectoryDB.publish.xml" />
+    <None Include="DesktopPhoneDirectoryDB.publish.xml" />
+    <None Include="LaptopPhoneDirectoryDB.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="PhoneDirectoryDB.refactorlog" />
