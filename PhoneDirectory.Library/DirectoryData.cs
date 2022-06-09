@@ -13,7 +13,7 @@
         }
         public string GetConnectionString()
         {
-            return _configuration.GetConnectionString("DefaultRemoteDataConnection");
+            return _configuration.GetConnectionString("DefaultDataConnection");
         }
         public async Task AddRecordAsync(PersonnelModel record, string department, string title)
         {
@@ -45,8 +45,7 @@
             string phoneMain,
             string phoneMobile,
             string extension,
-            string notes,
-            bool isExec)
+            string notes)
         {
             record.FirstName = firstName;
             record.LastName = lastName;
@@ -179,6 +178,14 @@
         public async Task AddTitle(TitleModel title)
         {
             await _db.SaveDataAsync("spCreateTitle", new { @Title = title.Name }, _connectionString, true);
+        }
+        public async Task<PersonnelModel> GetPersonByIdAsync(int id)
+        {
+            return await _db.LoadDataSingleAsync<PersonnelModel, dynamic>(
+                "spGetPersonById",
+                new { @Id = id },
+                _connectionString,
+                true);
         }
     }
 }

@@ -76,6 +76,7 @@
     <Build Include="dbo\Stored Procedures\spCreateDepartment.sql" />
     <Build Include="dbo\Stored Procedures\spCreateTitle.sql" />
     <Build Include="dbo\Stored Procedures\spAddRecord.sql" />
+    <Build Include="dbo\Stored Procedures\spGetPersonById.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DesktopPhoneDirectoryDB.publish.xml" />

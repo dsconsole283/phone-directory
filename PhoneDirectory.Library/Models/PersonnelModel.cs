@@ -16,7 +16,6 @@ namespace PhoneDirectory.Library.Models
         public int TitleId { get; set; }
         [Required]
         public string EmailAddress { get; set; }
-        [Required]
         public bool IsExec { get; set; } = false;
 #nullable enable
         public int? DepartmentId { get; set; }

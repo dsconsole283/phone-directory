@@ -1,15 +1,105 @@
-﻿@page "/admin"
+﻿@page "/Admin"
+@inject DirectoryData data
+@inject NavigationManager navManager
 
 <PageTitle>Phone Directory Admin Portal</PageTitle>
 
-@using PhoneDirectory.Data
-
 <AuthorizeView>
     <Authorized>
-        <h1>Admin portal under construction</h1>
+         @if (departments is not null)
+         {
+             @foreach (var d in departments)
+             {
+                <div>
+                    <button class="btn btn-light" @onclick="(() => OnDepartmentClick(d))">@d.Name</button>
+                </div>
+             }
+         }
+         @if (personnel is not null)
+         {
+             @foreach (var p in personnel)
+             {
+                    <div @onclick="(() => OnRecordClick(p))">
+                        @p.LastName
+                        @p.FirstName
+                        @p.Department.Name
+                        @p.Title.Name
+                        @p.PhoneMain
+                        @p.PhoneMobile
+                        @p.EmailAddress
+                        @p.Extension
+                    </div>
+             }
+         }
+
+         <input type="text" placeholder="Search" 
+    aria-label="Search Box" 
+    @oninput="((txt) => OnSearchInput((string)txt.Value))"/>
 
     </Authorized>
     <NotAuthorized>Sorry, you must be an administrator to view this page!</NotAuthorized>
 </AuthorizeView>
 
-@code{}
+@code
+{
+    private List<DepartmentModel> departments;
+    private List<PersonnelModel> personnel;
+    private string selectedPerson ="";
+    private string selectedDepartment = "All";
+    private string searchText = "";
+
+    protected async override Task OnInitializedAsync()
+    {
+        departments = await data.GetAllDepartmentsAsync();
+        personnel = await data.GetAllRecordsAsync();
+    }
+
+    private async Task OnDepartmentClick(DepartmentModel d)
+    {
+        selectedDepartment = d.Name;
+        await Filter();
+    }
+    private void OnRecordClick(PersonnelModel p)
+    {
+        selectedPerson = p.Id.ToString();
+        navManager.NavigateTo($"/Edit/{selectedPerson}");
+    }
+
+    private async Task Filter()
+    {
+        var output = await data.GetAllRecordsAsync();
+
+        if (selectedDepartment != "All")
+        {
+            output = output.Where(x => x.Department.Name == selectedDepartment).ToList();
+            output.OrderBy(x => x.IsExec == true).ThenByDescending(x => x.TitleId).ThenByDescending(x => x.LastName).ToList();
+        }
+
+        if (string.IsNullOrWhiteSpace(searchText) == false)
+        {
+            output = output.Where(
+                x => x.FirstName.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) ||
+                x.LastName.Contains(searchText, StringComparison.InvariantCultureIgnoreCase)       ||
+                x.Extension.Contains(searchText, StringComparison.InvariantCultureIgnoreCase)      ||
+                x.PhoneMain.Contains(searchText, StringComparison.InvariantCultureIgnoreCase)      ||
+                x.PhoneMobile.Contains(searchText, StringComparison.InvariantCultureIgnoreCase)
+            ).ToList();
+        }
+        else
+        {
+            personnel = await data.GetAllRecordsAsync();
+        }
+
+        personnel = output;
+    }
+    private async Task OnSearchInput(string searchInput)
+    {
+        searchText = searchInput;
+        await Filter();
+    }
+    private async Task OnAllClick()
+    {
+        selectedDepartment = "All";
+        await Filter();
+    }
+}

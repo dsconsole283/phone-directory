@@ -5,12 +5,19 @@
 
 <PageTitle>Phone Directory Home</PageTitle>
 
-<div>
-    <button class="btn btn-light" @onclick="(() => OnAdminClick())">Admin</button>
-</div>
+
+
+<AuthorizeView>
+    <Authorized>
+        <div>
+            <button class="btn btn-outline-dark" @onclick="(() => OnAdminClick())">Admin</button>
+        </div>
+
+    </Authorized>
+</AuthorizeView>
 
 <div>
-    <button class="btn btn-light" @onclick="(() => OnAllClick())">See All</button>
+    <button class="btn btn-outline-dark" @onclick="(() => OnAllClick())">See All</button>
 </div>
 
 @if (departments is not null)
@@ -18,7 +25,7 @@
     @foreach (var d in departments)
     {
         <div>
-            <button class="btn btn-light" @onclick="(() => OnClick(d))">@d.Name</button>
+            <button class="btn btn-outline-dark" @onclick="(() => OnClick(d))">@d.Name</button>
         </div>
     }
 }
@@ -135,6 +142,6 @@
 
     private void OnAdminClick()
     {
-        navManager.NavigateTo("/admin");
+        navManager.NavigateTo("/Admin");
     }
 }
