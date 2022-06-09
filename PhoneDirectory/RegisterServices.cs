@@ -18,7 +18,7 @@ namespace PhoneDirectory
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
             builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
-            builder.Services.AddTransient<DirectoryData>();
+            builder.Services.AddTransient<IDirectoryData, DirectoryData>();
         }
     }
 }

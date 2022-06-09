@@ -1,6 +1,6 @@
 ﻿namespace PhoneDirectory.Library
 {
-    public class DirectoryData
+    public class DirectoryData : IDirectoryData
     {
         private readonly ISQLDataAccess _db = new SQLDataAccess();
         private readonly IConfiguration _configuration;
@@ -13,7 +13,7 @@
         }
         public string GetConnectionString()
         {
-            return _configuration.GetConnectionString("DefaultRemoteDataConnection");
+            return _configuration.GetConnectionString("DefaultDataConnection");
         }
         public async Task AddRecordAsync(PersonnelModel record, string department, string title)
         {
@@ -22,16 +22,19 @@
             var isExecStatus = DetermineExecStatus(title);
 
             await _db.SaveDataAsync("dbo.spAddRecord",
-                                    new { record.FirstName, 
+                                    new
+                                    {
+                                        record.FirstName,
                                         record.LastName,
                                         departmentId,
                                         titleId,
-                                        record.EmailAddress, 
-                                        record.PhoneMain, 
-                                        record.PhoneMobile, 
-                                        record.Extension, 
-                                        record.Notes, 
-                                        @IsExec = isExecStatus },
+                                        record.EmailAddress,
+                                        record.PhoneMain,
+                                        record.PhoneMobile,
+                                        record.Extension,
+                                        record.Notes,
+                                        @IsExec = isExecStatus
+                                    },
                                     _connectionString,
                                     true);
         }
@@ -58,21 +61,23 @@
             record.PhoneMobile = phoneMobile;
             record.Extension = extension;
             record.Notes = notes;
-            record.IsExec = DetermineExecStatus(record.Title.Name); 
+            record.IsExec = DetermineExecStatus(record.Title.Name);
 
             await _db.SaveDataAsync("spUpdateRecord",
-                new { 
+                new
+                {
                     @Id = record.Id,
-                    record.FirstName, 
-                    record.LastName, 
-                    record.DepartmentId, 
-                    record.TitleId, 
-                    record.EmailAddress, 
-                    record.PhoneMain, 
-                    record.PhoneMobile, 
-                    record.Extension, 
-                    record.Notes, 
-                    record.IsExec },
+                    record.FirstName,
+                    record.LastName,
+                    record.DepartmentId,
+                    record.TitleId,
+                    record.EmailAddress,
+                    record.PhoneMain,
+                    record.PhoneMobile,
+                    record.Extension,
+                    record.Notes,
+                    record.IsExec
+                },
                 _connectionString,
                 true);
         }

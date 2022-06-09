@@ -1,5 +1,5 @@
 ﻿@page "/"
-@inject DirectoryData data
+@inject IDirectoryData data
 @inject NavigationManager navManager
 
 
@@ -76,12 +76,9 @@
 }
 
 
-<input type="text" placeholder="Search" 
+<input type="text" placeholder="Search" itemref="searchBox"
     aria-label="Search Box" 
     @oninput="((txt) => OnSearchInput((string)txt.Value))"/>
-
-
-
 
 
 @code{
@@ -89,6 +86,7 @@
     private List<PersonnelModel> personnel;
     private string selectedDepartment = "All";
     private string searchText = "";
+    ElementReference searchBox;
 
     protected async override Task OnInitializedAsync()
     {
@@ -98,6 +96,7 @@
 
     private async Task OnClick(DepartmentModel d)
     {
+        searchText = "";
         selectedDepartment = d.Name;
         await Filter();
     }
