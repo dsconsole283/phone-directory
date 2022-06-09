@@ -19,7 +19,7 @@
         {
             var departmentId = await GetDepIdByNameAsync(department);
             var titleId = await GetTitleIdByTitleAsync(title);
-            var isExecStatus = DetermineExecStatus(titleId);
+            var isExecStatus = DetermineExecStatus(title);
 
             await _db.SaveDataAsync("dbo.spAddRecord",
                                     new { record.FirstName, 
@@ -58,10 +58,12 @@
             record.PhoneMobile = phoneMobile;
             record.Extension = extension;
             record.Notes = notes;
-            record.IsExec = DetermineExecStatus(record.TitleId); 
+            record.IsExec = DetermineExecStatus(record.Title.Name); 
 
             await _db.SaveDataAsync("spUpdateRecord",
-                new { record.FirstName, 
+                new { 
+                    @Id = record.Id,
+                    record.FirstName, 
                     record.LastName, 
                     record.DepartmentId, 
                     record.TitleId, 
@@ -74,7 +76,11 @@
                 _connectionString,
                 true);
         }
-        public static bool DetermineExecStatus(int titleId) => titleId < 7;
+        public static bool DetermineExecStatus(string title)
+        {
+            string[] titles = { "VP", "Director", "Assistant Director", "Manager", "Assistant Manager", "Supervisor", "N/A" };
+            return titles.Contains(title);
+        }
         public async Task<int> GetDepIdByNameAsync(string name)
         {
             return await _db.LoadDataSingleAsync<int, dynamic>(
@@ -181,11 +187,34 @@
         }
         public async Task<PersonnelModel> GetPersonByIdAsync(int id)
         {
-            return await _db.LoadDataSingleAsync<PersonnelModel, dynamic>(
+            var record = await _db.LoadDataSingleAsync<PersonnelModel, dynamic>(
                 "spGetPersonById",
                 new { @Id = id },
                 _connectionString,
                 true);
+
+            List<DepartmentModel> departments = await GetAllDepartmentsAsync();
+
+            List<TitleModel> titles = await GetAllTitlesAsync();
+
+            if (record.PhoneMain is null)
+            {
+                record.PhoneMain = "None on File";
+                record.Extension = "N/A";
+            }
+            if (record.PhoneMobile is null)
+            {
+                record.PhoneMobile = "None on File";
+            }
+            if (record.Notes is null)
+            {
+                record.Notes = "None on File";
+            }
+
+            record.Department = departments.Where(d => d.Id == record.DepartmentId).First();
+            record.Title = titles.Where(t => t.Id == record.TitleId).First();
+
+            return record;
         }
     }
 }

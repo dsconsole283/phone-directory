@@ -5,9 +5,9 @@
 	@DepartmentId int,
 	@TitleID int,
 	@EmailAddress nvarchar(50),
-	@PhoneMain nchar(11),
-	@PhoneMobile nchar(11),
-	@Extension nchar(5),
+	@PhoneMain nvarchar(11),
+	@PhoneMobile nvarchar(11),
+	@Extension nvarchar(5),
 	@Notes nvarchar(MAX),
 	@IsExec bit
 AS

@@ -8,48 +8,54 @@
         @if (person is not null)
         {
             <h3>@person.FirstName @person.LastName</h3>
-
+            @if (changesMade)
+            {
+                <h6>Changes Saved</h6>
+            }
+            
             <EditForm Model="person" OnValidSubmit="SaveEdit">
             <DataAnnotationsValidator />
             <ValidationSummary />
-            <div>
-                <label for="first-name">First Name</label>
-                <InputText id="first-name" @bind-Value="person.FirstName" />
-            </div>
-            <div>
-                <label for="last-name">Last Name</label>
-                <InputText id="last-name" @bind-Value="person.LastName" />
-            </div>
-                <label for="department">Department</label>
-                <InputText id="department" @bind-Value="person.Department.Name" />
-            <div>
-                <label for="title">Title</label>
-                <InputText id="title" @bind-Value="person.Title.Name" />
-            </div>
-            <div>
-                <label for="email-address">Email Address</label>
-                <InputText id="email-address" @bind-Value="person.EmailAddress" />
-            </div>
-            <div>
-                <label for="phone-main">Primary Phone Number</label>
-                <InputText id="phone-main" @bind-Value="person.PhoneMain" />
-            </div>
-            <div>
-                <label for="phone-mobile">Mobile Phone</label>
-                <InputText id="phone-mobile" @bind-Value="person.PhoneMobile" />
-            </div>
-            <div>
-                <label for="extension">Extension</label>
-                <InputText id="extension" @bind-Value="person.Extension" />
-            </div>
-            <div>
-                <label for="notes-text">Notes</label>
-                <InputTextArea id="notes-text" @bind-Value="person.Notes" />
-            </div>
-            <div>
-                <button type="submit">Save Changes</button>
-            </div>
-        </EditForm>
+                <div>
+                    <label for="first-name">First Name</label>
+                    <InputText id="first-name" @bind-Value="person.FirstName" />
+                </div>
+                <div>
+                    <label for="last-name">Last Name</label>
+                    <InputText id="last-name" @bind-Value="person.LastName" />
+                </div>
+                <div>
+                    <label for="department">Department</label>
+                    <InputText id="department" @bind-Value="person.Department.Name" />
+                </div>
+                <div>
+                    <label for="title">Title</label>
+                    <InputText id="title" @bind-Value="person.Title.Name" />
+                </div>
+                <div>
+                    <label for="email-address">Email Address</label>
+                    <InputText id="email-address" @bind-Value="person.EmailAddress" />
+                </div>
+                <div>
+                    <label for="phone-main">Primary Phone Number</label>
+                    <InputText id="phone-main" @bind-Value="person.PhoneMain" />
+                </div>
+                <div>
+                    <label for="phone-mobile">Mobile Phone</label>
+                    <InputText id="phone-mobile" @bind-Value="person.PhoneMobile" />
+                </div>
+                <div>
+                    <label for="extension">Extension</label>
+                    <InputText id="extension" @bind-Value="person.Extension" />
+                </div>
+                <div>
+                    <label for="notes-text">Notes</label>
+                    <InputTextArea id="notes-text" @bind-Value="person.Notes" />
+                </div>
+                <div>
+                    <button type="submit">Save Changes</button>
+                </div>
+            </EditForm>
         }
     </Authorized>
     <NotAuthorized>
@@ -62,6 +68,7 @@
 @code{
     [Parameter]
     public string Id { get; set; }
+
     private PersonnelModel person;
     private int personId;
     private string firstName = "";
@@ -74,7 +81,7 @@
     private string extension = "";
     private string notes = "";
 
-
+    private bool changesMade = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -83,8 +90,17 @@
     }
     private async Task SaveEdit()
     {
+        firstName = person.FirstName;
+        lastName = person.LastName;
         department = person.Department.Name;
         title = person.Title.Name;
+        emailAddress = person.EmailAddress;
+        phoneMain = person.PhoneMain;
+        phoneMobile = person.PhoneMobile;
+        extension = person.Extension;
+        notes = person.Notes;
         await data.EditRecordAsync(person, firstName, lastName, department, title, emailAddress, phoneMain, phoneMobile, extension, notes);
+
+        changesMade = true;
     }
 }

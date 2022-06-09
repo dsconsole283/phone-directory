@@ -11,6 +11,7 @@ namespace PhoneDirectory.Library.Models
         public string LastName { get; set; }
         [Required]
         public DepartmentModel Department { get; set; }
+        public int DepartmentId { get; set; }
         [Required]
         public TitleModel Title { get; set; }
         public int TitleId { get; set; }
@@ -18,9 +19,16 @@ namespace PhoneDirectory.Library.Models
         public string EmailAddress { get; set; }
         public bool IsExec { get; set; } = false;
 #nullable enable
-        public int? DepartmentId { get; set; }
+        [MaxLength(11, ErrorMessage = "Must be 11 digits with no spaces or dashes.")]
+        [MinLength(11, ErrorMessage = "Must be 11 digits with no spaces or dashes.")]
         public string? PhoneMain { get; set; }
+        [MaxLength(11, ErrorMessage = "Must be 11 digits with no spaces or dashes.")]
+        [MinLength(11, ErrorMessage = "Must be 11 digits with no spaces or dashes.")]
+
         public string? PhoneMobile { get; set; }
+        [MaxLength(4, ErrorMessage = "Max 4 digits.")]
+        [MinLength(3, ErrorMessage = "Minimum 3 digits")]
+
         public string? Extension { get; set; }
         public string? Notes { get; set; }
 #nullable disable
