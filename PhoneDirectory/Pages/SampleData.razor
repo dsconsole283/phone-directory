@@ -7,34 +7,60 @@
 {
     <h3>Departments added</h3>
 }
-else
+@if (departments.Count == 0)
 {
     <button class="btn btn-primary" @onclick="CreateDepartments">Add Department Data</button>
+}
+else
+{
+    <h3>Department data exists</h3>
 }
 
 @if (titlesAdded)
 {
     <h3>Titles added</h3>
 }
-else
+@if (titles.Count == 0)
 {
     <button class="btn btn-primary" @onclick="CreateTitles">Add Title Data</button>
+}
+else
+{
+     <h3>Title data exists</h3>
 }
 
 @if (personnelAdded)
 {
     <h3>Personnel added</h3>
 }
-else
+@if (personnel.Count == 0 && titles.Count > 0 && departments.Count > 0)
 {
     <button class="btn btn-primary" @onclick="LoadSamplePersonnel">Add Sample Personnel</button>
+}
+else if ((titles.Count == 0 || departments.Count == 0) && personnel.Count == 0)
+{
+    <h3>Must load department and title data before personnel data can be loaded</h3>
+}
+else
+{
+    <h3>Personnel data exists</h3>
 }
 
 
 @code {
+    private List<DepartmentModel> departments = new();
+    private List<TitleModel> titles = new();
+    private List<PersonnelModel> personnel = new();
     private bool departmentsAdded = false;
     private bool titlesAdded = false;
     private bool personnelAdded = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        departments = await data.GetAllDepartmentsAsync();
+        titles = await data.GetAllTitlesAsync();
+        personnel = await data.GetAllRecordsAsync();
+    }
 
     private async Task CreateDepartments()
     {
@@ -159,6 +185,7 @@ else
         await data.AddDepartment(dep);
 
         departmentsAdded = true;
+        departments = await data.GetAllDepartmentsAsync();
     }
 
     private async Task CreateTitles()
@@ -201,11 +228,12 @@ else
 
         title = new()
         {
-            Name = "N/A"
+            Name = "Untitled"
         };
         await data.AddTitle(title);
 
         titlesAdded = true;
+        titles = await data.GetAllTitlesAsync();
     }
     private async Task LoadSamplePersonnel()
     {
@@ -675,16 +703,16 @@ else
         await data.AddRecordAsync(person, dep, title);
 
         dep = "Slots";
-        title = "N/A";
+        title = "Untitled";
 
         person = new()
         {
             FirstName = "Basic",
             LastName = "Guy1",
             EmailAddress = "notspecial@p1.com",
-            PhoneMain = null,
-            PhoneMobile = null,
-            Extension = null,
+            PhoneMain = "19515559999",
+            PhoneMobile = "19515559998",
+            Extension = "9999",
             Notes = null
         };
 
@@ -707,5 +735,6 @@ else
         await data.AddRecordAsync(person, dep, title);
 
         personnelAdded = true;
+        personnel = await data.GetAllRecordsAsync();
     }
 }

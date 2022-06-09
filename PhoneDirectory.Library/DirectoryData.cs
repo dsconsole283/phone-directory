@@ -13,7 +13,7 @@
         }
         public string GetConnectionString()
         {
-            return _configuration.GetConnectionString("DefaultDataConnection");
+            return _configuration.GetConnectionString("DefaultRemoteDataConnection");
         }
         public async Task AddRecordAsync(PersonnelModel record, string department, string title)
         {
@@ -78,7 +78,7 @@
         }
         public static bool DetermineExecStatus(string title)
         {
-            string[] titles = { "VP", "Director", "Assistant Director", "Manager", "Assistant Manager", "Supervisor", "N/A" };
+            string[] titles = { "VP", "Director", "Assistant Director", "Manager", "Assistant Manager", "Supervisor", "Untitled" };
             return titles.Contains(title);
         }
         public async Task<int> GetDepIdByNameAsync(string name)
@@ -121,14 +121,9 @@
 
             foreach (var record in records)
             {
-                if (record.PhoneMain is null)
+                if (record.Notes is null)
                 {
-                    record.PhoneMain = "None on File";
-                    record.Extension = "N/A";
-                }
-                if (record.PhoneMobile is null)
-                {
-                    record.PhoneMobile = "None on File";
+                    record.Notes = "None on File";
                 }
 
                 record.Department = departments.Where(d => d.Id == record.DepartmentId).First();
@@ -197,15 +192,6 @@
 
             List<TitleModel> titles = await GetAllTitlesAsync();
 
-            if (record.PhoneMain is null)
-            {
-                record.PhoneMain = "None on File";
-                record.Extension = "N/A";
-            }
-            if (record.PhoneMobile is null)
-            {
-                record.PhoneMobile = "None on File";
-            }
             if (record.Notes is null)
             {
                 record.Notes = "None on File";

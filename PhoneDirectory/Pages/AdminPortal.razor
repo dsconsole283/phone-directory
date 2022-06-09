@@ -6,12 +6,15 @@
 
 <AuthorizeView>
     <Authorized>
+        <div>
+            <button class="btn btn-outline-dark" @onclick="(() => OnAllClick())">See All</button>
+        </div>
          @if (departments is not null)
          {
              @foreach (var d in departments)
              {
                 <div>
-                    <button class="btn btn-light" @onclick="(() => OnDepartmentClick(d))">@d.Name</button>
+                    <button class="btn btn-primary" @onclick="(() => OnDepartmentClick(d))">@d.Name</button>
                 </div>
              }
          }
