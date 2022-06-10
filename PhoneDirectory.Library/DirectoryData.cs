@@ -13,7 +13,7 @@
         }
         public string GetConnectionString()
         {
-            return _configuration.GetConnectionString("DefaultDataConnection");
+            return _configuration.GetConnectionString("DefaultRemoteDataConnection");
         }
         public async Task AddRecordAsync(PersonnelModel record, string department, string title)
         {

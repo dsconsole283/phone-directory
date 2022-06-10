@@ -3,54 +3,124 @@
 @inject NavigationManager navManager
 
 
+<style>
+
+button{
+  border: none;
+  transition: box-shadow .15s;
+  border-radius: 4px;
+}
+
+.see-all-button{
+  margin-bottom: 4px;
+}
+
+.admin-button{
+
+}
+
+.department-buttons{
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+button:hover{
+  background-color: rgb(235, 235, 235);
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, .25);
+}
+
+button:active{
+  color: white;
+  background-color: rgb(90, 90, 90);
+  box-shadow: 5px 5px 10px rgb(60, 60, 60);
+  transition: background-color .15s;
+  transition: color .15s;
+}
+
+.phone-block{
+  color: rgb(96, 96, 96);
+  font-size: 16px;
+}
+
+.email-address{
+  color: rgb(0, 0, 160);
+  font-size:16px;
+}
+
+.record-block{
+  margin-bottom: 8px;
+  border-bottom: thin;
+  border-bottom-color: rgb(96, 96, 96);
+  border-bottom-style:solid;
+  max-width:fit-content;
+}
+
+.main-div{
+  display: flex;
+}
+
+.full-name{
+  font-size:24px;
+}
+</style>
+
 <PageTitle>Phone Directory Home</PageTitle>
 
-
-
-<AuthorizeView>
-    <Authorized>
-        <div>
-            <button class="btn btn-outline-dark" @onclick="(() => OnAdminClick())">Admin</button>
-        </div>
-
-    </Authorized>
-</AuthorizeView>
-
 <div>
-    <button class="btn btn-outline-dark" @onclick="(() => OnAllClick())">See All</button>
+  <AuthorizeView>
+    <Authorized>
+      <button class="admin-button" @onclick="(() => OnAdminClick())">Admin  Portal</button>
+    </Authorized>
+  </AuthorizeView>
 </div>
 
+<h1>Phone Directory</h1>
+<br/>
+<br/>
+<h6>Departments</h6>
+
+<div class="main-div">
+<div>
+<div>
+<button class="see-all-button" @onclick="(() => OnAllClick())">See All</button>
+</div>
 @if (departments is not null)
 {
-    @foreach (var d in departments)
-    {
-        <div>
-            <button class="btn btn-outline-dark" @onclick="(() => OnClick(d))">@d.Name</button>
-        </div>
-    }
+  @foreach (var d in departments)
+  {
+    <div>
+      <button class="department-buttons" @onclick="(() => OnClick(d))">@d.Name</button>
+    </div>
+  }
 }
+</div>
+
 @if (personnel is not null)
 {
-    @foreach (var p in personnel)
-    {
-        <div>
-            @p.LastName
-            @p.FirstName
-            @p.Department.Name
-            @p.Title.Name
-            @p.PhoneMain
-            @p.PhoneMobile
-            @p.EmailAddress
-            @p.Extension
-        </div>
-    }
+  @foreach (var p in personnel)
+  {
+    <div class="record-block">
+      <div class="full-name">
+        <strong>@p.LastName</strong>,
+        <strong>@p.FirstName</strong> &#183;
+        @p.Title.Name
+        @p.Department.Name
+      </div>
+      <div class="phone-block">
+        &#9742; @string.Format("{0: #(###) ###-####}", Convert.ToInt64(p.PhoneMain))
+        x @p.Extension  &#183;
+        @string.Format("{0: #(###) ###-####}", Convert.ToInt64(p.PhoneMobile))
+      </div>
+        <span class="email-address">@p.EmailAddress</span>
+    </div>
+  }
 }
-
+</div>
 
 <div>
-    <input type="text" placeholder="Search" itemref="searchBox"
-    aria-label="Search Box" 
-    @oninput="((txt) => OnSearchInput((string)txt.Value))"/>
+  <input type="text" placeholder="Search" itemref="searchBox"
+  aria-label="Search Box" 
+  @oninput="((txt) => OnSearchInput((string)txt.Value))"/>
 </div>
 
 @code{
