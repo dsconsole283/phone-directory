@@ -2,187 +2,161 @@
 @inject IDirectoryData data
 @inject NavigationManager navManager
 
-
 <style>
 
-button{
-  border: none;
-  transition: box-shadow .15s;
-  border-radius: 4px;
-}
+  button{
+    border: none;
+    transition: box-shadow .15s;
+    border-radius: 4px;
+  }
 
-.see-all-button{
-  margin-bottom: 4px;
-}
+  p{
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  
+  .see-all-button{
+    margin-bottom: 4px;
+  }
+  
+  .admin-button{
+  
+  }
+  
+  .department-buttons{
+    margin-top: 2px;
+    margin-bottom: 2px;
+  }
+  
+  button:hover{
+    background-color: rgb(235, 235, 235);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, .25);
+  }
+  
+  button:active{
+    color: white;
+    background-color: rgb(90, 90, 90);
+    box-shadow: 5px 5px 10px rgb(60, 60, 60);
+    transition: background-color .15s;
+    transition: color .15s;
+  }
+  
+  .phone-text{
+    color: black;
+    font-size: 16px;
+    margin-left: 20px;
+  }
+  
+  .email-address{
+    color: rgb(0, 0, 160);
+    font-size:16px;
+    text-align: right;
+  }
+  
+  .record-block{
+    margin-bottom: 8px;
+    max-width:fit-content;
+  }
+  
+  .main-div{
+    display: flex;
+  }
+  
+  .full-name-text{
+    font-size: 24px;
+    margin-bottom: -2px;
+  }
+  
+  .full-name-div{
+  
+  }
 
-.admin-button{
+  .title-and-department-text{
+    font-size: 16px;
+    margin-top: -2px;
+    margin-left: 10px;
+    margin-bottom: 4px;
+    color: rgb(106, 106, 106)
+  }
 
-}
+  .phone-icon{
+    color:green;
+  }
 
-.department-buttons{
-  margin-top: 2px;
-  margin-bottom: 2px;
-}
+  .person-details-block{
+    margin-left: 10px;
+  }
 
-button:hover{
-  background-color: rgb(235, 235, 235);
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, .25);
-}
-
-button:active{
-  color: white;
-  background-color: rgb(90, 90, 90);
-  box-shadow: 5px 5px 10px rgb(60, 60, 60);
-  transition: background-color .15s;
-  transition: color .15s;
-}
-
-.phone-block{
-  color: rgb(96, 96, 96);
-  font-size: 16px;
-}
-
-.email-address{
-  color: rgb(0, 0, 160);
-  font-size:16px;
-}
-
-.record-block{
-  margin-bottom: 8px;
-  border-bottom: thin;
-  border-bottom-color: rgb(96, 96, 96);
-  border-bottom-style:solid;
-  max-width:fit-content;
-}
-
-.main-div{
-  display: flex;
-}
-
-.full-name{
-  font-size:24px;
-}
 </style>
 
-<PageTitle>Phone Directory Home</PageTitle>
+<html>
+  <head>
+    <PageTitle>Phone Directory Home</PageTitle>
+  </head>
+  <body>
+    <h1>Phone Directory</h1>
+    <br/>
+    <br/>
+    <h6>Departments</h6>
+    <div>
+      <div>
+        <button class="see-all-button" @onclick="(() => OnAllClick())">See All</button>
+      </div>
+      @if (departments is not null)
+      {
+        @foreach (var d in departments)
+        {
+          <div>
+            <button class="department-buttons" @onclick="(() => OnClick(d))">@d.Name</button>
+          </div>
+        }
+      }
+    </div>
+    @if (personnel is not null)
+    {
+      @foreach (var p in personnel)
+      {
+        <div class="record-block">
+          <div class="full-name-div">
+            <p class="full-name-text">
+              <strong>@p.LastName</strong>,
+              <strong>@p.FirstName</strong>
+            </p>
+          </div>
+            <div class="person-details-block">
+              <p class="title-and-department-text">
+                @p.Title.Name &#183;
+                @p.Department.Name
+              </p>
+            <div>
+              <p class="phone-block">
+                <span class="phone-icon">&#9742;</span> @string.Format("{0: #(###) ###-####}", Convert.ToInt64(p.PhoneMain))
+                x @p.Extension
+                &#128241; @string.Format("{0: #(###) ###-####}", Convert.ToInt64(p.PhoneMobile))
+              </p>
+            </div>
+            <div>
+              <p class="email-address">
+                @p.EmailAddress
+              </p>
+            </div>
+          </div>
+        </div>
+      }
+    }
+    <div>
+      <input type="text" placeholder="Search" itemref="searchBox" aria-label="Search Box" 
+       @oninput="((txt) => OnSearchInput((string)txt.Value))"/>
+    </div>
+  </body>
+</html>
 
-<div>
-  <AuthorizeView>
+
+
+<AuthorizeView>
     <Authorized>
       <button class="admin-button" @onclick="(() => OnAdminClick())">Admin  Portal</button>
     </Authorized>
-  </AuthorizeView>
-</div>
+</AuthorizeView>
 
-<h1>Phone Directory</h1>
-<br/>
-<br/>
-<h6>Departments</h6>
 
-<div class="main-div">
-<div>
-<div>
-<button class="see-all-button" @onclick="(() => OnAllClick())">See All</button>
-</div>
-@if (departments is not null)
-{
-  @foreach (var d in departments)
-  {
-    <div>
-      <button class="department-buttons" @onclick="(() => OnClick(d))">@d.Name</button>
-    </div>
-  }
-}
-</div>
-
-@if (personnel is not null)
-{
-  @foreach (var p in personnel)
-  {
-    <div class="record-block">
-      <div class="full-name">
-        <strong>@p.LastName</strong>,
-        <strong>@p.FirstName</strong> &#183;
-        @p.Title.Name
-        @p.Department.Name
-      </div>
-      <div class="phone-block">
-        &#9742; @string.Format("{0: #(###) ###-####}", Convert.ToInt64(p.PhoneMain))
-        x @p.Extension  &#183;
-        @string.Format("{0: #(###) ###-####}", Convert.ToInt64(p.PhoneMobile))
-      </div>
-        <span class="email-address">@p.EmailAddress</span>
-    </div>
-  }
-}
-</div>
-
-<div>
-  <input type="text" placeholder="Search" itemref="searchBox"
-  aria-label="Search Box" 
-  @oninput="((txt) => OnSearchInput((string)txt.Value))"/>
-</div>
-
-@code{
-    private List<DepartmentModel> departments;
-    private List<PersonnelModel> personnel;
-    private string selectedDepartment = "All";
-    private string searchText = "";
-    ElementReference searchBox;
-
-    protected async override Task OnInitializedAsync()
-    {
-        departments = await data.GetAllDepartmentsAsync();
-        personnel = await data.GetAllRecordsAsync();
-    }
-
-    private async Task OnClick(DepartmentModel d)
-    {
-        searchText = "";
-        selectedDepartment = d.Name;
-        await Filter();
-    }
-
-    private async Task Filter()
-    {
-        var output = await data.GetAllRecordsAsync();
-
-        if (selectedDepartment != "All")
-        {
-            output = output.Where(x => x.Department.Name == selectedDepartment).ToList();
-            output.OrderBy(x => x.IsExec == true).ThenByDescending(x => x.TitleId).ThenByDescending(x => x.LastName).ToList();
-        }
-
-        if (string.IsNullOrWhiteSpace(searchText) == false)
-        {
-            output = output.Where(
-                x => x.FirstName.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) ||
-                x.LastName.Contains(searchText, StringComparison.InvariantCultureIgnoreCase)       ||
-                x.Extension.Contains(searchText, StringComparison.InvariantCultureIgnoreCase)      ||
-                x.PhoneMain.Contains(searchText, StringComparison.InvariantCultureIgnoreCase)      ||
-                x.PhoneMobile.Contains(searchText, StringComparison.InvariantCultureIgnoreCase)
-            ).ToList();
-        }
-        else
-        {
-            personnel = await data.GetAllRecordsAsync();
-        }
-
-        personnel = output;
-    }
-    private async Task OnSearchInput(string searchInput)
-    {
-        searchText = searchInput;
-        await Filter();
-    }
-    private async Task OnAllClick()
-    {
-        selectedDepartment = "All";
-        await Filter();
-    }
-
-    private void OnAdminClick()
-    {
-        navManager.NavigateTo("/Admin");
-    }
-}
