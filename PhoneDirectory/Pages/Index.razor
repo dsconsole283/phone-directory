@@ -46,40 +46,12 @@
     }
 }
 
-@if (personnel is not null)
-{
-<table>
-    <thead>
-        <tr>Last Name</tr>
-        <tr>First Name</tr>
-        <tr>Department</tr>
-        <tr>Title</tr>
-        <tr>Phone</tr>
-        <tr>Mobile</tr>
-        <tr>Email</tr>
-        <tr>Ext</tr>
-    </thead>
-    @foreach (var p in personnel)
-    {
-        <tr>
-            @p.LastName,
-            @p.FirstName,
-            @p.Department.Name,
-            @p.Title.Name,
-            @p.PhoneMain,
-            @p.PhoneMobile,
-            @p.EmailAddress,
-            @p.Extension
-        </tr>
-    }
-</table>
-}
 
-
-<input type="text" placeholder="Search" itemref="searchBox"
+<div>
+    <input type="text" placeholder="Search" itemref="searchBox"
     aria-label="Search Box" 
     @oninput="((txt) => OnSearchInput((string)txt.Value))"/>
-
+</div>
 
 @code{
     private List<DepartmentModel> departments;

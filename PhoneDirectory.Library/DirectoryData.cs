@@ -207,5 +207,9 @@
 
             return record;
         }
+        public async Task DeleteRecord(PersonnelModel record)
+        {
+            await _db.SaveDataAsync("spDeleteRecord", new { @Id = record.Id }, _connectionString, true);
+        }
     }
 }

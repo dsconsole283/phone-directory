@@ -3,21 +3,12 @@
 @inject IDirectoryData data
 @inject NavigationManager navManager
 
-<style>
 
-.text-input-block{
-    display:inline-block;
-}
-
-.radio-button-group{
-    display:inline-block;
-}
-</style>
 
 <AuthorizeView Context="Auth">
     <Authorized>
         <button class="btn btn-outline-danger" @onclick="ReturnToAdmin">Return to Admin page</button>
-        @if (person is not null)
+        @if (person is not null && !isDeleted)
         {
             <h3>@person.FirstName @person.LastName </h3>
             <h5>@person.Title.Name @person.Department.Name</h5>
@@ -30,41 +21,46 @@
             {
                 <h6 style="color: red">Editting</h6>
             }
-        <div style="text-input-block">
+        <div>
             <EditForm Model="person" OnValidSubmit="SaveEdit">
             <DataAnnotationsValidator />
             <ValidationSummary />
-            <div class="text-input-block">
+            <div>
                 <div>
                     <div>
                         <label for="first-name">First Name</label>
                     </div>
                     <InputText id="first-name" @bind-Value="person.FirstName" @onfocus="ResetEditState"/>
                 </div>
+                    <br>
                 <div>
                     <div>
                         <label for="last-name">Last Name</label>
                     </div>
                     <InputText id="last-name" @bind-Value="person.LastName" @onfocus="ResetEditState"/>
                 </div>
+                    <br>
                 <div>
                     <div>
                         <label for="email-address">Email Address</label>
                     </div>
                     <InputText id="email-address" @bind-Value="person.EmailAddress" @onfocus="ResetEditState"/>
                 </div>
+                    <br>
                 <div>
                     <div>
                         <label for="phone-main">Primary Phone Number</label>
                     </div>
                     <InputText id="phone-main" @bind-Value="person.PhoneMain" @onfocus="ResetEditState"/>
                 </div>
+                    <br>
                 <div>
                     <div>
                         <label for="phone-mobile">Mobile Phone</label>
                     </div>
                     <InputText id="phone-mobile" @bind-Value="person.PhoneMobile" @onfocus="ResetEditState"/>
                 </div>
+                    <br>
                 <div>
                     <div>
                         <label for="extension">Extension</label>
@@ -72,55 +68,60 @@
                     <InputText id="extension" @bind-Value="person.Extension" @onfocus="ResetEditState"/>
                 </div>
             </div>
-                <div style="radio-button-group">
-                   <InputRadioGroup id="department" @bind-Value="person.Department.Name">
-                       <div>
-                        <label for="department">Department</label>
-                       </div>
-                        @if (departments is not null)
+                <br>
+            <div>
+                <div>
+                    <label>Department</label>
+                </div>
+                <InputSelect id="department" @bind-Value="person.Department.Name" @onfocus="ResetEditState">
+                     @if (departments is not null)
                         {
                             @foreach (var d in departments)
                             {
-                                <div style="radio-button-group">
-                                    <InputRadio Value="d.Name" id="d.Name" @onclick="ResetEditState"/>
-                                    <label for="@d.Name">@d.Name</label>
-                                </div>
+                                <option value=@d.Name>@d.Name</option>
                             }
                         }
-                   </InputRadioGroup>
+                </InputSelect>
+            </div>
+                <br>
+            <div>
+                <div>
+                    <label>Title</label>
                 </div>
-                <div style="radio-button-group">
-                   <InputRadioGroup id="title" @bind-Value="person.Title.Name">
-                       <div>
-                           <label for="title">Title</label>
-                       </div>
-                        @if (titles is not null)
+                <InputSelect id="title" @bind-Value="person.Title.Name" @onfocus="ResetEditState">
+                     @if (titles is not null)
                         {
                             @foreach (var t in titles)
                             {
-                                <div style="radio-button-group">
-                                    <InputRadio Value="t.Name" id="t.Name" @onclick="ResetEditState"/>
-                                    <label for="@t.Name">@t.Name</label>
-                                </div>
+                                <option value=@t.Name>@t.Name</option>
                             }
                         }
-                   </InputRadioGroup>
-                </div>
+                </InputSelect>
+            </div>
+                <br>
+            <div>
                 <div>
-                    <div>
-                        <label for="notes-text">Notes</label>
-                    </div>
-                    <InputTextArea id="notes-text" @bind-Value="person.Notes" @onfocus="ResetEditState"/>
+                    <label for="notes-text">Notes</label>
                 </div>
-                <div>
-                    <button type="submit" class="btn btn-success">@saveButtonText</button>
-                </div>
+                <InputTextArea id="notes-text" @bind-Value="person.Notes" @onfocus="ResetEditState"/>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-success">@saveButtonText</button>
+            </div>
             </EditForm>
-        </div>
+            </div>
+                <br>
+            <div>
+                <button class="btn btn-danger" @onclick="(() => DeleteRecord(person))">Delete Record</button>
+            </div>
+        }
+        else
+        {
+             <h2>Record Deleted</h2>
         }
     </Authorized>
     <NotAuthorized>
-
+        <h3>You are not authorized to view this page</h3>
     </NotAuthorized>
 </AuthorizeView>
 
@@ -134,20 +135,21 @@
     private List<DepartmentModel> departments;
     private List<TitleModel> titles;
     private int personId;
-    private string firstName = "";
-    private string lastName = "";
-    private string department = "";
-    private string title = "";
-    private string emailAddress = "";
-    private string phoneMain = ""; 
-    private string phoneMobile = "";
-    private string extension = "";
-    private string notes = "";
+    private string firstName;
+    private string lastName;
+    private string department;
+    private string title;
+    private string emailAddress;
+    private string phoneMain; 
+    private string phoneMobile;
+    private string extension;
+    private string notes;
     private string saveButtonText = "Submit";
 
     private bool changesMade = false;
     private bool isValidRecord = false;
     private bool isNewRecord = false;
+    private bool isDeleted = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -156,19 +158,6 @@
         if (isValidRecord)
         {
             person = await data.GetPersonByIdAsync(personId);
-
-            if (person.PhoneMain == "None on File")
-            {
-                person.PhoneMain = string.Empty;
-            }
-            if (person.PhoneMobile == "None on File")
-            {
-                person.PhoneMobile = string.Empty;
-            }
-            if (person.Extension == "N/A")
-            {
-                person.Extension = string.Empty;
-            }
         }
         else
         {
@@ -209,9 +198,16 @@
     {
         changesMade = false;
         saveButtonText = "Submit";
+        StateHasChanged();
     }
     private void ReturnToAdmin()
     {
         navManager.NavigateTo("/Admin");
     }
+    private async Task DeleteRecord(PersonnelModel person)
+    {
+        await data.DeleteRecord(person);
+        isDeleted = true;
+    }
+    
 }

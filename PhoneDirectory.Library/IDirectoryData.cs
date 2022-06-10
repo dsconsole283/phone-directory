@@ -5,6 +5,7 @@
         Task AddDepartment(DepartmentModel department);
         Task AddRecordAsync(PersonnelModel record, string department, string title);
         Task AddTitle(TitleModel title);
+        Task DeleteRecord(PersonnelModel record);
         Task EditRecordAsync(PersonnelModel record, string firstName, string lastName, string department, string title, string emailAddress, string phoneMain, string phoneMobile, string extension, string notes);
         Task<List<DepartmentModel>> GetAllDepartmentsAsync();
         Task<List<PersonnelModel>> GetAllRecordsAsync();
