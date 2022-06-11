@@ -22,14 +22,12 @@ namespace PhoneDirectory.Library.Models
         public string EmailAddress { get; set; }
         public bool IsExec { get; set; } = false;
         [Phone(ErrorMessage = "Phone numbers must cannot contain spaces or dashes")]
-        [MinLength(11, ErrorMessage = "Phone numbers must be 11 digits")]
-        [MaxLength(11, ErrorMessage = "Phone numbers must be 11 digits")]
+        [RegularExpression(@"^\d{11}$", ErrorMessage = "Phone numbers must be 11 digits")]
         public string PhoneMain { get; set; }
         [Phone(ErrorMessage = "Phone numbers must cannot contain spaces or dashes")]
-        [MinLength(11, ErrorMessage ="Phone numbers must be 11 digits")]
-        [MaxLength(11, ErrorMessage ="Phone numbers must be 11 digits")]
+        [RegularExpression(@"^\d{11}$", ErrorMessage = "Phone numbers must be 11 digits")]
         public string PhoneMobile { get; set; }
-        [MaxLength(4, ErrorMessage = "Max 4 digits.")]
+        [RegularExpression(@"^\d{3,5}$", ErrorMessage = "Extensions must be between 3 and 5 digits")]
         public string Extension { get; set; }
 #nullable enable
         public string? Notes { get; set; }

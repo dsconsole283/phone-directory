@@ -1,11 +1,10 @@
-using Microsoft.AspNetCore.Components.Web.Virtualization;
-
 namespace PhoneDirectory.Pages
 {
-    public partial class Index
+    public partial class AdminPortal
     {
         private List<DepartmentModel> departments;
         private List<PersonnelModel> personnel;
+        private string selectedPerson = "";
         private string selectedDepartment = "All";
         private string searchText = "";
         protected async override Task OnInitializedAsync()
@@ -16,9 +15,14 @@ namespace PhoneDirectory.Pages
 
         private async Task OnClick(DepartmentModel d)
         {
-            searchText = "";
             selectedDepartment = d.Name;
             await Filter();
+        }
+
+        private void OnRecordClick(PersonnelModel p)
+        {
+            selectedPerson = p.Id.ToString();
+            navManager.NavigateTo($"/Edit/{selectedPerson}");
         }
 
         private async Task Filter()
@@ -54,15 +58,13 @@ namespace PhoneDirectory.Pages
             await Filter();
         }
 
-        private void OnAdminClick()
+        private void OnAddRecord()
         {
-            navManager.NavigateTo("/Admin");
+            navManager.NavigateTo($"/Edit/newrecord");
         }
-        private async ValueTask<ItemsProviderResult<PersonnelModel>> ItemsForVirtualize(ItemsProviderRequest items)
+        private void ReturnToHome()
         {
-           
-           
-           return new ItemsProviderResult<PersonnelModel>(new List<PersonnelModel>(), 1000);
+          navManager.NavigateTo("/");
         }
     }
 }

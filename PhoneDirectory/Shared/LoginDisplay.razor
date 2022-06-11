@@ -1,12 +1,14 @@
 ﻿<AuthorizeView>
     <Authorized>
-        <a href="Identity/Account/Manage">Authorized Administrator</a>
+      <div style="display: flex; justify-content:end; align-items:center">
+        <a href="Identity/Account/Manage" class="nav-link btn btn-link">Authorized Administrator</a>
         <form method="post" action="Identity/Account/LogOut">
             <button type="submit" class="nav-link btn btn-link">Log out</button>
         </form>
+      </div>
     </Authorized>
     <NotAuthorized>
         @*<a href="Identity/Account/Register">Register</a>*@
-        <a href="Identity/Account/Login">Admin Log In</a>
+        <a href="Identity/Account/Login" class="nav-link btn btn-link">Admin Log In</a>
     </NotAuthorized>
 </AuthorizeView>
