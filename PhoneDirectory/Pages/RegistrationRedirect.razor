@@ -1,0 +1,12 @@
+﻿@page "/RegistrationRedirect"
+@inject NavigationManager navManager
+
+<p>Registration is not available. Please contact an administrator.</p>
+<button onclick="ReturnHome">Return to Directory</button>
+
+@code {
+  private void ReturnHome()
+  {
+    navManager.NavigateTo("/");
+  }
+}

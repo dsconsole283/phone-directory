@@ -47,14 +47,15 @@ body {
 
 .input {
   font-size: 12px;
+  width: 275px;
 }
 
 .input-group-item {
   margin-bottom: 6px;
 }
 
-.info-line{
-  display: inline-block;
+.info-line {
+  margin-bottom: 25px;
 }
 
 .delete-button {

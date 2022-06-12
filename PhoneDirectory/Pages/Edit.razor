@@ -1,4 +1,4 @@
-﻿@page "/Edit/{Id}"
+﻿@page "/Edit/{Id:int}"
 
 @inject IDirectoryData data
 @inject NavigationManager navManager
@@ -15,24 +15,23 @@
     @if (person is not null && !isDeleted)
     {
       <div class="info-line">
-      <h3>@person.FirstName @person.LastName <span class="title-stats">@person.Title.Name &#183; @person.Department.Name</span></h3>
+      <h3>@person.FirstName @person.LastName <span class="title-stats">@person.Title.Name @person.Department.Name</span></h3>
       </div>
-      @if (confirmDelete)
-        {
-        <button class="delete-button" @onclick="(() => ConfirmedDeleteRecord(person))">@deleteButtonText</button>
-        }
-        else
-        {
-        <button class="delete-button" @onclick="DeleteRecord">@deleteButtonText</button>
-        }
       @if (isNewRecord)
       {
           <h6 style="color: green">New Record</h6>
-
       }
       else
       {
-          <h6 style="color: red">Edit</h6>
+          <h6 style="color: red; display: inline-block;">Editting Record</h6>
+           @if (confirmDelete)
+      {
+      <button class="delete-button" @onclick="(() => ConfirmedDeleteRecord(person))">@deleteButtonText</button>
+      }
+      else
+      {
+      <button class="delete-button" @onclick="DeleteRecord">@deleteButtonText</button>
+      }
       }
     <div>
       <EditForm Model="person" OnValidSubmit="SaveEdit">
@@ -42,7 +41,7 @@
             <div>
                 <label for="first-name" class="input">First Name</label>
             </div>
-            <InputText class="input" id="first-name" @bind-Value="person.FirstName" @onfocus="ResetEditState"/>
+            <InputText class="input" id="first-name" @bind-Value="person.FirstName" @onfocus="ResetEditState" />
           </div>
 
           <div class="input-group-item">
@@ -139,12 +138,11 @@
 
 @code{
   [Parameter]
-  public string Id { get; set; }
+  public int Id { get; set; }
 
   private PersonnelModel person;
   private List<DepartmentModel> departments;
   private List<TitleModel> titles;
-  private int personId;
   private string firstName;
   private string lastName;
   private string department;
@@ -158,26 +156,24 @@
   private string deleteButtonText = "Delete Record";
 
   private bool changesMade = false;
-  private bool isValidRecord = false;
   private bool isNewRecord = false;
   private bool isDeleted = false;
   private bool confirmDelete = false;
 
   protected override async Task OnInitializedAsync()
   {
-    isValidRecord = int.TryParse(Id, out personId);
-
-    if (isValidRecord)
+    if (Id == -1)
     {
-      person = await data.GetPersonByIdAsync(personId);
-    }
+       isNewRecord = true;
+       person = new();
+       person.Department = new DepartmentModel();
+       person.Title = new TitleModel();
+    } 
     else
     {
-      isNewRecord = true;
-      person = new();
-      person.Department = new DepartmentModel();
-      person.Title = new TitleModel();
+       person = await data.GetPersonByIdAsync(Id);
     }
+   
     departments = await data.GetAllDepartmentsAsync();
     titles = await data.GetAllTitlesAsync();
   }

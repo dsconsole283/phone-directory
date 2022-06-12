@@ -60,7 +60,7 @@ namespace PhoneDirectory.Pages
 
         private void OnAddRecord()
         {
-            navManager.NavigateTo($"/Edit/newrecord");
+            navManager.NavigateTo($"/Edit/-1");
         }
         private void ReturnToHome()
         {
