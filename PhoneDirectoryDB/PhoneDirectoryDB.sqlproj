@@ -82,6 +82,7 @@
   <ItemGroup>
     <None Include="DesktopPhoneDirectoryDB.publish.xml" />
     <None Include="LaptopPhoneDirectoryDB.publish.xml" />
+    <None Include="AzurePhoneDirectoryDB.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="PhoneDirectoryDB.refactorlog" />
