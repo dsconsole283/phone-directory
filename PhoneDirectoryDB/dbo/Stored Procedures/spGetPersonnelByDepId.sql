@@ -1,5 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[spGetPersonnelByDepId]
+
 	@DepartmentId int
+
 AS
 
 BEGIN

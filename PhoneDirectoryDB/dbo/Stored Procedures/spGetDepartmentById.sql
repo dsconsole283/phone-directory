@@ -1,4 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[spGetDepartmentById]
+
 	@Id int
 
 AS

@@ -65,6 +65,6 @@ namespace PhoneDirectory.Pages
         private void ReturnToHome()
         {
           navManager.NavigateTo("/");
-        }
+    }
     }
 }

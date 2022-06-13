@@ -6,226 +6,123 @@
 <html>
    <head>
     <PageTitle>Edit A Record</PageTitle>
-    <link rel="stylesheet" href="/css/edit.css"/>
+    <link rel="stylesheet" href="/css/site.css"/>
   </head>
   <body>
     <AuthorizeView Context="Auth">
       <Authorized>
         <button class="return-button" @onclick="ReturnToAdmin">Return to Admin page</button>
-    @if (person is not null && !isDeleted)
-    {
-      <div class="info-line">
-      <h3>@person.FirstName @person.LastName <span class="title-stats">@person.Title.Name @person.Department.Name</span></h3>
-      </div>
-      @if (isNewRecord)
-      {
-          <h6 style="color: green">New Record</h6>
-      }
-      else
-      {
-          <h6 style="color: red; display: inline-block;">Editting Record</h6>
-           @if (confirmDelete)
-      {
-      <button class="delete-button" @onclick="(() => ConfirmedDeleteRecord(person))">@deleteButtonText</button>
-      }
-      else
-      {
-      <button class="delete-button" @onclick="DeleteRecord">@deleteButtonText</button>
-      }
-      }
-    <div>
-      <EditForm Model="person" OnValidSubmit="SaveEdit">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-          <div class="input-group-item">
-            <div>
-                <label for="first-name" class="input">First Name</label>
-            </div>
-            <InputText class="input" id="first-name" @bind-Value="person.FirstName" @onfocus="ResetEditState" />
+        @if (person is not null && !isDeleted)
+        {
+          <div class="info-line">
+            <h3>@person.FirstName @person.LastName <span class="title-stats">@person.Title.Name @person.Department.Name</span></h3>
           </div>
-
-          <div class="input-group-item">
-            <div>
-                <label for="last-name" class="input">Last Name</label>
-            </div>
-            <InputText class="input" id="last-name" @bind-Value="person.LastName" @onfocus="ResetEditState"/>
-          </div>
-
-          <div class="input-group-item">
-            <div>
-                <label for="email-address" class="input">Email Address</label>
-            </div>
-            <InputText class="input" id="email-address" @bind-Value="person.EmailAddress" @onfocus="ResetEditState"/>
-          </div>
-
-          <div class="input-group-item">
-            <div>
-                <label for="phone-main" class="input">Primary Phone Number</label>
-            </div>
-            <InputText class="input" id="phone-main" @bind-Value="person.PhoneMain" @onfocus="ResetEditState"/>
-          </div>
-
-          <div class="input-group-item">
-            <div>
-              <label for="phone-mobile" class="input">Mobile Phone</label>
-            </div>
-            <InputText class="input" id="phone-mobile" @bind-Value="person.PhoneMobile" @onfocus="ResetEditState"/>
-          </div>
-
-          <div class="input-group-item">
-            <div>
-                <label for="extension" class="input">Extension</label>
-            </div>
-            <InputText class="input" id="extension" @bind-Value="person.Extension" @onfocus="ResetEditState"/>
-          </div>
-
-        <div class="input-group-item">
-          <div>
-              <label class="input">Department</label>
-          </div>
-          <InputSelect class="input" id="department" @bind-Value="person.Department.Name" @onfocus="ResetEditState">
-            @if (departments is not null)
+          @if (isNewRecord)
+          {
+            <h6 class="new-h6">New Record</h6>
+          }
+          else
+          {
+            <h6 class="edit-h6">Editting Record</h6>
+            @if (confirmDelete)
             {
-              @foreach (var d in departments)
-              {
-                  <option value=@d.Name>@d.Name</option>
-              }
+              <button class="delete-button" @onclick="(() => ConfirmedDeleteRecord(person))">@deleteButtonText</button>
             }
-          </InputSelect>
-        </div>
-        <div class="input-group-item">
-          <div>
-            <label class="input">Title</label>
-          </div>
-          <InputSelect class="input" id="title" @bind-Value="person.Title.Name" @onfocus="ResetEditState">
-            @if (titles is not null)
+            else
             {
-              @foreach (var t in titles)
-              {
-                  <option value=@t.Name>@t.Name</option>
-              }
+              <button class="delete-button" @onclick="DeleteRecord">@deleteButtonText</button>
             }
-          </InputSelect>
-        </div>
-        <div class="input-group-item">
+          }
           <div>
-              <label for="notes-text" class="input">Notes</label>
-          </div>
-          <InputTextArea  class="input" id="notes-text" @bind-Value="person.Notes" @onfocus="ResetEditState"/>
+            <EditForm Model="person" OnValidSubmit="SaveEdit">
+          <DataAnnotationsValidator />
+          <ValidationSummary />
+            <div class="input-group-item">
+              <div>
+                  <label for="first-name" class="input">First Name</label>
+              </div>
+              <InputText class="input" id="first-name" @bind-Value="person.FirstName" @onfocus="ResetEditState" />
+            </div>
+            <div class="input-group-item">
+              <div>
+                  <label for="last-name" class="input">Last Name</label>
+              </div>
+              <InputText class="input" id="last-name" @bind-Value="person.LastName" @onfocus="ResetEditState"/>
+            </div>
+            <div class="input-group-item">
+              <div>
+                  <label for="email-address" class="input">Email Address</label>
+              </div>
+              <InputText class="input" id="email-address" @bind-Value="person.EmailAddress" @onfocus="ResetEditState"/>
+            </div>
+            <div class="input-group-item">
+              <div>
+                  <label for="phone-main" class="input">Primary Phone Number</label>
+              </div>
+              <InputText class="input" id="phone-main" @bind-Value="person.PhoneMain" @onfocus="ResetEditState"/>
+            </div>
+            <div class="input-group-item">
+              <div>
+                <label for="phone-mobile" class="input">Mobile Phone</label>
+              </div>
+              <InputText class="input" id="phone-mobile" @bind-Value="person.PhoneMobile" @onfocus="ResetEditState"/>
+            </div>
+            <div class="input-group-item">
+              <div>
+                  <label for="extension" class="input">Extension</label>
+              </div>
+              <InputText class="input" id="extension" @bind-Value="person.Extension" @onfocus="ResetEditState"/>
+            </div>
+            <div class="input-group-item">
+              <div>
+                  <label class="input">Department</label>
+              </div>
+              <InputSelect class="input" id="department" @bind-Value="person.Department.Name" @onfocus="ResetEditState">
+                @if (departments is not null)
+                {
+                  @foreach (var d in departments)
+                  {
+                      <option value=@d.Name>@d.Name</option>
+                  }
+                }
+              </InputSelect>
+            </div>
+            <div class="input-group-item">
+              <div>
+                <label class="input">Title</label>
+              </div>
+              <InputSelect class="input" id="title" @bind-Value="person.Title.Name" @onfocus="ResetEditState">
+                @if (titles is not null)
+                {
+                  @foreach (var t in titles)
+                  {
+                      <option value=@t.Name>@t.Name</option>
+                  }
+                }
+              </InputSelect>
+            </div>
+            <div class="input-group-item">
+              <div>
+                  <label for="notes-text" class="input">Notes</label>
+              </div>
+              <InputTextArea  class="input" id="notes-text" @bind-Value="person.Notes" @onfocus="ResetEditState"/>
+            </div>
+            <div>
+              <button type="submit" class="btn btn-success">@saveButtonText</button>
+            </div>
+          </EditForm>
+          <br/>
+          <br/>
         </div>
-        <div>
-          <button type="submit" class="btn btn-success">@saveButtonText</button>
-        </div>
-      </EditForm>
-      <br/>
-      <br/>
-    </div>
-    }
-    else
-    {
-      <h2>Record Deleted</h2>
-    }
-  </Authorized>
-  <NotAuthorized>
-    <h3>You are not authorized to view this page</h3>
-  </NotAuthorized>
-</AuthorizeView>
+        }
+        else
+        {
+          <h2>Record Deleted</h2>
+        }
+      </Authorized>
+      <NotAuthorized>
+        <h3>You are not authorized to view this page</h3>
+      </NotAuthorized>
+    </AuthorizeView>
   </body>
 </html>
-
-
-
-
-@code{
-  [Parameter]
-  public int Id { get; set; }
-
-  private PersonnelModel person;
-  private List<DepartmentModel> departments;
-  private List<TitleModel> titles;
-  private string firstName;
-  private string lastName;
-  private string department;
-  private string title;
-  private string emailAddress;
-  private string phoneMain; 
-  private string phoneMobile;
-  private string extension;
-  private string notes;
-  private string saveButtonText = "Submit";
-  private string deleteButtonText = "Delete Record";
-
-  private bool changesMade = false;
-  private bool isNewRecord = false;
-  private bool isDeleted = false;
-  private bool confirmDelete = false;
-
-  protected override async Task OnInitializedAsync()
-  {
-    if (Id == -1)
-    {
-       isNewRecord = true;
-       person = new();
-       person.Department = new DepartmentModel();
-       person.Title = new TitleModel();
-    } 
-    else
-    {
-       person = await data.GetPersonByIdAsync(Id);
-    }
-   
-    departments = await data.GetAllDepartmentsAsync();
-    titles = await data.GetAllTitlesAsync();
-  }
-  private async Task SaveEdit()
-  {
-    firstName = person.FirstName;
-    lastName = person.LastName;
-    department = person.Department.Name;
-    title = person.Title.Name;
-    emailAddress = person.EmailAddress;
-    phoneMain = person.PhoneMain;
-    phoneMobile = person.PhoneMobile;
-    extension = person.Extension;
-    notes = person.Notes;
-
-    if (isNewRecord)
-    {
-      await data.AddRecordAsync(person, person.Department.Name, person.Title.Name);
-    }
-    else
-    {
-      await data.EditRecordAsync(person, firstName, lastName, department, title, emailAddress, phoneMain, phoneMobile, extension, notes);
-    }
-
-    changesMade = true;
-    isNewRecord = false;
-    saveButtonText = "Changes Saved!";
-  }
-  private void ResetEditState()
-  {
-    changesMade = false;
-    saveButtonText = "Submit";
-    confirmDelete = false;
-    deleteButtonText = "Delete Record";
-    StateHasChanged();
-  }
-  private void ReturnToAdmin()
-  {
-    navManager.NavigateTo("/Admin");
-  }
-
-  private void DeleteRecord()
-  {
-    deleteButtonText = "Click to Confirm";
-    confirmDelete = true;
-  }
-
-  private async Task ConfirmedDeleteRecord(PersonnelModel person)
-  {
-    await data.DeleteRecord(person);
-    isDeleted = true;
-    confirmDelete = false;
-  }
-    
-}

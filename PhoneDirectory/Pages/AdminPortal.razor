@@ -5,7 +5,7 @@
 <html>
   <head>
     <PageTitle>Phone Directory Admin Portal</PageTitle>
-    <link rel="stylesheet" href="/css/portal.css"/>
+    <link rel="stylesheet" href="/css/site.css"/>
   </head>
   <body>
     <AuthorizeView>
@@ -15,7 +15,7 @@
           <input type="text" placeholder="Search" class="search-box"
              @oninput="((txt) => OnSearchInput((string)txt.Value))"/>
         </div>
-          <h2>Admin Portal</h2>
+          <h2 class="admin-h2">Admin Portal</h2>
         <div>
           <h6 class="department-title">Departments</h6>
         </div>
@@ -33,23 +33,37 @@
               }
             }
           </div>
-          <div>
-            <p><strong>Select a record to edit</strong></p>
+          <div class="admin-second-column">
+            <div class="select-record">
+              <p><strong>Select a record to edit</strong></p>
+            </div>
+            <div class="records">
             @if (personnel is not null)
             {
               @foreach (var p in personnel)
               {
-                <div class="records" @onclick="(() => OnRecordClick(p))">
+                <div class="individual-record" @onclick="(() => OnRecordClick(p))">
                   <p class="record-text">
                     @p.LastName,
                     @p.FirstName
-                    &#40; @p.Department.Name
-                    @p.Title.Name &#41;
+                    <span class="bullet">&#183;</span>
+                    @p.Title.Name
+                    @p.Department.Name
+                    <span class="bullet">&#183;</span>
+                    @string.Format("{0: #(###) ###-####}", Convert.ToInt64(p.PhoneMain))
+                    <span class="bullet">&#183;</span>
+                    @string.Format("{0: #(###) ###-####}", Convert.ToInt64(p.PhoneMobile))
+                    <span class="bullet">&#183;</span>
+                    x @p.Extension
                   </p>
                 </div>
               }
             }
           </div>
+          </div>
+          <br />
+          <br />
+          <br />
         </div>
       </Authorized>
       <NotAuthorized>

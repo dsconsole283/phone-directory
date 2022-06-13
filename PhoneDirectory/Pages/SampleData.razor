@@ -7,9 +7,10 @@
 {
     <h3>Departments added</h3>
 }
+
 @if (departments.Count == 0)
 {
-    <button class="btn btn-primary" @onclick="CreateDepartments">Add Department Data</button>
+    <button class="department-buttons" @onclick="CreateDepartments">Add Department Data</button>
 }
 else
 {
@@ -20,9 +21,10 @@ else
 {
     <h3>Titles added</h3>
 }
+
 @if (titles.Count == 0)
 {
-    <button class="btn btn-primary" @onclick="CreateTitles">Add Title Data</button>
+    <button class="department-buttons" @onclick="CreateTitles">Add Title Data</button>
 }
 else
 {
@@ -33,9 +35,10 @@ else
 {
     <h3>Personnel added</h3>
 }
+
 @if (personnel.Count == 0 && titles.Count > 0 && departments.Count > 0)
 {
-    <button class="btn btn-primary" @onclick="LoadSamplePersonnel">Add Sample Personnel</button>
+    <button class="department-buttons" @onclick="LoadSamplePersonnel">Add Sample Personnel</button>
 }
 else if ((titles.Count == 0 || departments.Count == 0) && personnel.Count == 0)
 {
@@ -389,7 +392,7 @@ else
         {
             FirstName = "Donald",
             LastName = "Trump",
-            EmailAddress = "pinkfloyd@potus.com",
+            EmailAddress = "yafired@iwasprezonce.com",
             PhoneMain = "19515550140",
             PhoneMobile = "19515550141",
             Extension = "0140",
@@ -549,7 +552,7 @@ else
         {
             FirstName = "Phil",
             LastName = "Up",
-            EmailAddress = "imnotqualified@itdoesntmatter.com",
+            EmailAddress = "imnotqualified@1ew.com",
             PhoneMain = "19515550160",
             PhoneMobile = "19515550161",
             Extension = "0160",
@@ -595,9 +598,9 @@ else
 
         person = new()
         {
-            FirstName = "Beavis",
-            LastName = "Smith",
-            EmailAddress = "fire@ohyeah.com",
+            FirstName = "Elon",
+            LastName = "Musk",
+            EmailAddress = "wannabemartian@twitter.com",
             PhoneMain = "19515550166",
             PhoneMobile = "19515550167",
             Extension = "0166",
@@ -611,9 +614,9 @@ else
 
         person = new()
         {
-            FirstName = "Butt",
-            LastName = "Head",
-            EmailAddress = "uhhhhh@thatwascool.com",
+            FirstName = "Hulk",
+            LastName = "Hogan",
+            EmailAddress = "cmonbrother@ohhhyeeah.com",
             PhoneMain = "19515550168",
             PhoneMobile = "19515550169",
             Extension = "0168",

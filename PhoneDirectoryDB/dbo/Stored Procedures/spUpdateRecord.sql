@@ -1,4 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[spUpdateRecord]
+
 	@Id int,
 	@FirstName nvarchar(50),
 	@LastName nvarchar(50),
@@ -10,6 +11,7 @@
 	@Extension nvarchar(5),
 	@Notes nvarchar(MAX),
 	@IsExec bit
+
 AS
 
 BEGIN
