@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/phone-directory-data/databases/phone-directory-auth",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:DefaultAuthConnection",
+      "dynamicId": null
+    }
+  }
+}
