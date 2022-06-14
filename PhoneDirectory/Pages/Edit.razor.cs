@@ -45,15 +45,21 @@ namespace PhoneDirectory.Pages
 
         private async Task SaveEdit()
         {
-            firstName = person.FirstName;
-            lastName = person.LastName;
+            if (person.Department.Name is null)
+            {
+              person.Department.Name = "Accounting";
+              person.Title.Name = "VP";
+            }
             department = person.Department.Name;
             title = person.Title.Name;
+            firstName = person.FirstName;
+            lastName = person.LastName;
             emailAddress = person.EmailAddress;
             phoneMain = person.PhoneMain;
             phoneMobile = person.PhoneMobile;
             extension = person.Extension;
             notes = person.Notes;
+
             if (isNewRecord)
             {
                 await data.AddRecordAsync(person, person.Department.Name, person.Title.Name);
@@ -64,7 +70,6 @@ namespace PhoneDirectory.Pages
             }
 
             changesMade = true;
-            isNewRecord = false;
             saveButtonText = "Changes Saved!";
         }
 

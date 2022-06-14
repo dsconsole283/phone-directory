@@ -77,7 +77,7 @@
               <div>
                   <label class="input">Department</label>
               </div>
-              <InputSelect class="input" id="department" @bind-Value="person.Department.Name" @onfocus="ResetEditState">
+              <InputSelect class="input" @bind-Value="person.Department.Name" @onfocus="ResetEditState">
                 @if (departments is not null)
                 {
                   @foreach (var d in departments)
@@ -91,7 +91,7 @@
               <div>
                 <label class="input">Title</label>
               </div>
-              <InputSelect class="input" id="title" @bind-Value="person.Title.Name" @onfocus="ResetEditState">
+              <InputSelect class="input" @bind-Value="person.Title.Name" @onfocus="ResetEditState">
                 @if (titles is not null)
                 {
                   @foreach (var t in titles)
