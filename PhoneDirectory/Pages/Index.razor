@@ -20,7 +20,7 @@
             <button class="admin-button" @onclick="(() => OnAdminClick())">Admin  Portal</button>
           </Authorized>
         </AuthorizeView>
-        <button class="see-all-button" @onclick="(() => OnAllClick())">See All</button>
+        <button class="see-all-button" @onclick="(() => OnAllClick())"><strong>See All</strong></button>
         @if (departments is not null)
         {
           @foreach (var d in departments)
